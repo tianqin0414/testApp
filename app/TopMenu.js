@@ -15,6 +15,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   TouchableHighlight,
+  TouchableOpacity,
   ART,
   View,
   Image,
@@ -27,7 +28,7 @@ const { width, height, } = Dimensions.get('window');
 const T_WIDTH = 7;
 const T_HEIGHT = 4;
 
-const COLOR_HIGH = '#00bea9';
+const COLOR_HIGH = '#6057CA';
 const COLOR_NORMAL = '#6c6c6c';
 
 const LINE = 1 / PixelRatio.get();
@@ -256,7 +257,7 @@ export default class TopMenu extends Component {
         <Animated.View
           key={index}
           pointerEvents={enabled ? 'auto' : 'none'}
-          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
+          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[0], }, ]}
         >
           <ScrollView style={styles.scroll}>
             {d.data.map((data, subindex) => {
@@ -295,7 +296,9 @@ export default class TopMenu extends Component {
           </View>
           {this.props.renderContent()}
           <View style={styles.bgContainer} pointerEvents={this.state.selectedIndex !== null ? "auto" : "none"}>
-            <Animated.View style={[ styles.bg, { opacity: this.state.fadeInOpacity, }, ]} />
+              {/*<TouchableHighlight>*/}
+              <Animated.View style={[ styles.bg, { opacity: this.state.fadeInOpacity, }, ]}/>
+              {/*</TouchableHighlight>*/}
             {this.props.config.map((d, index) => {
               return this.renderList(d, index);
             })}
@@ -309,7 +312,11 @@ const styles = StyleSheet.create({
 
   scroll: { flex: 1, backgroundColor: '#fff', },
   bgContainer: { position: 'absolute', top: 40, width, height, },
-  bg: { flex: 1, backgroundColor: 'rgba(50,50,50,0.2)', },
+  bg: {
+    flex: 1,
+    backgroundColor: 'red', // 'rgba(50,50,50,0.2)',
+    opacity: 0.2,
+  },
   content: {
     position: 'absolute',
     width,
