@@ -20,7 +20,7 @@ import {
   Image,
 } from 'react-native';
 
-const { Surface, Shape, Path, Group, } = ART;
+// const { Surface, Shape, Path, Group, } = ART;
 
 const { width, height, } = Dimensions.get('window');
 
@@ -69,7 +69,7 @@ const TopMenuItem = (props) => {
       <View style={styles.item}>
         <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}</Text>
         {/* <Triangle selected={props.selected} /> */}
-        <Image style={{ height: 15, width: 15, }} source={require('../images/ic_triangle_down.png')} />
+        <Image style={{ height: 15, width: 15, }} source={!props.selected ? require('../images/ic_triangle_down.png') : require('../images/ic_triangle_up.png')} />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -104,7 +104,7 @@ const Title = (props) => {
     [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
     [ styles.tableItemText, styles.margin, ];
 
-  const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
+  // const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
 
 
   const onPress = () => {
@@ -319,12 +319,13 @@ const styles = StyleSheet.create({
     color: COLOR_HIGH,
   },
 
-  marginHigh: { marginLeft: 10, },
-  margin: { marginLeft: 28, },
+  marginHigh: { },
+  margin: { },
 
 
   titleItem: {
     height: 43,
+    justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 10,
     paddingRight: 10,
@@ -345,7 +346,9 @@ const styles = StyleSheet.create({
   },
   tableItemText: { fontWeight: '300', fontSize: 14, },
   row: {
+    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
 
   item: {

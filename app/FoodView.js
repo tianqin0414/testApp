@@ -37,7 +37,7 @@ const CONFIG = [
   },
   {
     type: 'title',
-    selectedIndex: 0,
+    selectedIndex: 2,
     data: [ {
       title: '智能排序',
     }, {
