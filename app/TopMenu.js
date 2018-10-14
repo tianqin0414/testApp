@@ -17,6 +17,7 @@ import {
   TouchableHighlight,
   ART,
   View,
+  Image,
 } from 'react-native';
 
 const { Surface, Shape, Path, Group, } = ART;
@@ -68,6 +69,7 @@ const TopMenuItem = (props) => {
       <View style={styles.item}>
         <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}</Text>
         {/* <Triangle selected={props.selected} /> */}
+        <Image style={{ height: 15, width: 15, }} source={require('../images/ic_triangle_down.png')} />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -113,6 +115,7 @@ const Title = (props) => {
     <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
       <View style={styles.titleItem}>
         {/* {props.selected && <Check />} */}
+
         <Text style={textStyle}>{props.data.title}</Text>
       </View>
     </TouchableHighlight>
