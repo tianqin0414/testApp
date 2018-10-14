@@ -31,33 +31,33 @@ const COLOR_NORMAL = '#6c6c6c';
 
 const LINE = 1 / PixelRatio.get();
 
-class Triangle extends React.Component {
-  render() {
-    let path;
-    let fill;
-    if (this.props.selected) {
-      fill = COLOR_HIGH;
-      path = new Path()
-        .moveTo(T_WIDTH / 2, 0)
-        .lineTo(0, T_HEIGHT)
-        .lineTo(T_WIDTH, T_HEIGHT)
-        .close();
-    } else {
-      fill = COLOR_NORMAL;
-      path = new Path()
-        .moveTo(0, 0)
-        .lineTo(T_WIDTH, 0)
-        .lineTo(T_WIDTH / 2, T_HEIGHT)
-        .close();
-    }
-
-    return (
-      <Surface width={T_WIDTH} height={T_HEIGHT}>
-        <Shape d={path} stroke="#00000000" fill={fill} strokeWidth={0} />
-      </Surface>
-    );
-  }
-}
+// class Triangle extends React.Component {
+//   render() {
+//     let path;
+//     let fill;
+//     if (this.props.selected) {
+//       fill = COLOR_HIGH;
+//       path = new Path()
+//         .moveTo(T_WIDTH / 2, 0)
+//         .lineTo(0, T_HEIGHT)
+//         .lineTo(T_WIDTH, T_HEIGHT)
+//         .close();
+//     } else {
+//       fill = COLOR_NORMAL;
+//       path = new Path()
+//         .moveTo(0, 0)
+//         .lineTo(T_WIDTH, 0)
+//         .lineTo(T_WIDTH / 2, T_HEIGHT)
+//         .close();
+//     }
+//
+//     return (
+//       <Surface width={T_WIDTH} height={T_HEIGHT}>
+//         <Shape d={path} stroke="#00000000" fill={fill} strokeWidth={0} />
+//       </Surface>
+//     );
+//   }
+// }
 
 const TopMenuItem = (props) => {
   const onPress = () => {
@@ -67,7 +67,7 @@ const TopMenuItem = (props) => {
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.item}>
         <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}</Text>
-        <Triangle selected={props.selected} />
+        {/* <Triangle selected={props.selected} /> */}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -88,7 +88,7 @@ const Subtitle = (props) => {
     <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
       <View style={styles.tableItem}>
         <View style={styles.row}>
-          {props.selected && <Check />}
+          {/* {props.selected && <Check />} */}
           <Text style={textStyle}>{props.data.title}</Text>
         </View>
         <Text style={rightTextStyle}>{props.data.subtitle}</Text>
@@ -112,29 +112,29 @@ const Title = (props) => {
   return (
     <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
       <View style={styles.titleItem}>
-        {props.selected && <Check />}
+        {/* {props.selected && <Check />} */}
         <Text style={textStyle}>{props.data.title}</Text>
       </View>
     </TouchableHighlight>
   );
 };
 
-const Check = () => {
-  return (
-    <Surface
-      width={18}
-      height={12}
-    >
-      <Group scale={0.03}>
-        <Shape
-          fill={COLOR_HIGH}
-          d={`M494,52c-13-13-33-13-46,0L176,324L62,211c-13-13-33-13-46,0s-13,33,0,46l137,136c6,6,15,10,23,10s17-4,23-10L494,99
-      C507,86,507,65,494,52z`}
-        />
-      </Group>
-    </Surface>
-  );
-};
+// const Check = () => {
+//   return (
+//     <Surface
+//       width={18}
+//       height={12}
+//     >
+//       <Group scale={0.03}>
+//         <Shape
+//           fill={COLOR_HIGH}
+//           d={`M494,52c-13-13-33-13-46,0L176,324L62,211c-13-13-33-13-46,0s-13,33,0,46l137,136c6,6,15,10,23,10s17-4,23-10L494,99
+//       C507,86,507,65,494,52z`}
+//         />
+//       </Group>
+//     </Surface>
+//   );
+// };
 
 
 export default class TopMenu extends Component {

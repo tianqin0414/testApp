@@ -5,11 +5,11 @@
 
 import React, { Component, } from 'react';
 import { Platform, View, Dimensions, Text, StyleSheet, TouchableOpacity, Image, } from 'react-native';
-import px2dp from '../util/Utils';
+// import px2dp from '../util/Utils';
 
 const isIOS = Platform.OS == "ios";
 const { width, height, } = Dimensions.get('window');
-const headH = px2dp(isIOS ? 64 : 44);
+const headH = 64;
 
 export default class FoodActionBar extends Component {
   constructor(props) {
@@ -27,13 +27,13 @@ export default class FoodActionBar extends Component {
           <Image style={styles.scanIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.searchBar}>
-          <Image source={require('../images/ic_search.png')} style={styles.iconStyle} />
+          <Image source={require('../images/ic_right.png')} style={styles.iconStyle} />
           <Text style={{ fontSize: 13, color: "#666", marginLeft: 5, }}>输入商家名、品类和商圈</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.action} onPress={() => { this.setState({ showPop: !this.state.showPop, }); }}>
           <Image
             style={styles.scanIcon}
-            source={require('../images/icon_address.png')}
+            source={require('../images/ic_right.png')}
           />
         </TouchableOpacity>
       </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   headerStyle: {
     backgroundColor: "#ffffff",
     height: headH,
-    paddingTop: px2dp(isIOS ? 20 : 0),
+    paddingTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
