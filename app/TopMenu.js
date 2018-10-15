@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component, } from 'react';
 import {
   AppRegistry,
@@ -68,7 +62,7 @@ const TopMenuItem = (props) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.item}>
-        <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}</Text>
+        <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}22</Text>
         {/* <Triangle selected={props.selected} /> */}
         <Image style={{ height: 15, width: 15, }} source={!props.selected ? require('../images/ic_triangle_down.png') : require('../images/ic_triangle_up.png')} />
       </View>
@@ -105,7 +99,7 @@ const Title = (props) => {
     [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
     [ styles.tableItemText, styles.margin, ];
 
-  // const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
+    // const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
 
 
   const onPress = () => {
@@ -117,7 +111,7 @@ const Title = (props) => {
       <View style={styles.titleItem}>
         {/* {props.selected && <Check />} */}
 
-        <Text style={textStyle}>{props.data.title}</Text>
+        <Text style={textStyle}>{props.data.title}rr</Text>
       </View>
     </TouchableHighlight>
   );
@@ -155,7 +149,8 @@ export default class TopMenu extends Component {
 
     for (let i = 0, c = array.length; i < c; ++i) {
       const item = array[i];
-      top[i] = item.data[item.selectedIndex].title;
+      // top[i] = item.data[item.selectedIndex].title;
+      top[i] = 'sss';
       maxHeight[i] = Math.min(item.data.length, max) * 43;
       subselected[i] = item.selectedIndex;
       height[i] = new Animated.Value(0);
@@ -178,6 +173,18 @@ export default class TopMenu extends Component {
 
   }
 
+  renderSeleted() {
+    return (
+      <TouchableOpacity onPress={this.onSelectMenuTQ}>
+        <View>
+          <Text>重置</Text>
+          {this.props.renderContent()}
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+
     createAnimation = (index, height) => {
       return Animated.timing(
         this.state.height[index],
@@ -193,7 +200,7 @@ export default class TopMenu extends Component {
         this.state.fadeInOpacity,
         {
           toValue: value,
-          duration: 250,
+          duration: 0,
         }
       );
     }
@@ -238,9 +245,17 @@ export default class TopMenu extends Component {
 
     onSelectMenu = (index, subindex, data) => {
       this.hide(index, subindex);
-      this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+      this.props.onSelectMenu(index, subindex, data);
+      alert(`${index}`);
     }
 
+    onSelectMenuTQ = () => {
+      this.hide(0, 0);
+      alert('aaa');
+      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+      // this.props.onSelectMenuTQ(index, subindex, data);
+    }
 
     renderList = (d, index) => {
       const subselected = this.state.subselected[index];
@@ -275,6 +290,7 @@ export default class TopMenu extends Component {
       );
     }
 
+
     render() {
       let list = null;
       if (this.state.selectedIndex !== null) {
@@ -294,11 +310,19 @@ export default class TopMenu extends Component {
               />);
             })}
           </View>
-          {this.props.renderContent()}
+          {/* {this.renderSeleted()} */}
+          {/* onSelectMenuTQ =(index)=>{ */}
+          {/* {{index} !== 1 ? this.renderSeleted() : null} */}
+          {/* } */}
+
+
+          {/* if(1===1){ */}
+          {/* {this.renderSeleted()} */}
+          {/* } */}
           <View style={styles.bgContainer} pointerEvents={this.state.selectedIndex !== null ? "auto" : "none"}>
-              {/*<TouchableHighlight>*/}
-              <Animated.View style={[ styles.bg, { opacity: this.state.fadeInOpacity, }, ]}/>
-              {/*</TouchableHighlight>*/}
+            {/* <TouchableHighlight> */}
+            <Animated.View style={[ styles.bg, { opacity: this.state.fadeInOpacity, }, ]} />
+            {/* </TouchableHighlight> */}
             {this.props.config.map((d, index) => {
               return this.renderList(d, index);
             })}

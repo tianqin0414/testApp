@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component, } from 'react';
 import {
   AppRegistry,
@@ -24,7 +18,7 @@ const { width, height, } = Dimensions.get('window');
 const CONFIG = [
   {
     type: 'subtitle',
-    selectedIndex: 1,
+    selectedIndex: 0,
     data: [
       { title: '全部', subtitle: '1200m', },
       { title: '自助餐', subtitle: '300m', },
@@ -37,7 +31,7 @@ const CONFIG = [
   },
   {
     type: 'title',
-    selectedIndex: 2,
+    selectedIndex: 0,
     data: [ {
       title: '智能排序',
     }, {
@@ -46,6 +40,19 @@ const CONFIG = [
       title: '好评优先',
     }, {
       title: '人气最高',
+    }, ],
+  },
+  {
+    type: 'title',
+    selectedIndex: 0,
+    data: [ {
+      title: '价格',
+    }, {
+      title: '0-4k',
+    }, {
+      title: '4-8k',
+    }, {
+      title: '8-12k',
     }, ],
   },
 ];
@@ -59,11 +66,20 @@ export default class FoodView extends Component {
     };
   }
 
+    onSelectMenuTQ=(index, subindex, data) => {
+      this.setState({ index, subindex, data, });
+    };
+
     renderContent=() => {
       return (
-        <TouchableOpacity >
-          <Text style={styles.text}>index:{this.state.index} subindex:{this.state.subindex} title:{this.state.data.title}</Text>
-        </TouchableOpacity>
+          <View>
+        {/*<TouchableOpacity>*/}
+          {/*<Text style={styles.text}>index:{this.state.index} subindex:{this.state.subindex} title:{this.state.data.title}</Text>*/}
+        {/*</TouchableOpacity>*/}
+        <Text>
+        ttttt
+        </Text>
+          </View>
       );
       // alert(this.state.data.title)
     };
@@ -76,7 +92,7 @@ export default class FoodView extends Component {
       return (
         <View style={styles.container}>
           <FoodActionBar />
-          {/*<Separator />*/}
+          {/* <Separator /> */}
           <TopMenu style={styles.container} config={CONFIG} onSelectMenu={this.onSelectMenu} renderContent={this.renderContent} />
         </View>
       );
@@ -87,7 +103,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width,
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
   text: {
     fontSize: 20,
