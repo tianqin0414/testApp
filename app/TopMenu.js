@@ -257,7 +257,7 @@ export default class TopMenu extends Component {
         <Animated.View
           key={index}
           pointerEvents={enabled ? 'auto' : 'none'}
-          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[0], }, ]}
+          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
         >
           <ScrollView style={styles.scroll}>
             {d.data.map((data, subindex) => {
@@ -314,8 +314,7 @@ const styles = StyleSheet.create({
   bgContainer: { position: 'absolute', top: 40, width, height, },
   bg: {
     flex: 1,
-    backgroundColor: 'red', // 'rgba(50,50,50,0.2)',
-    opacity: 0.2,
+    backgroundColor: 'rgba(50,50,50,0.2)',
   },
   content: {
     position: 'absolute',
