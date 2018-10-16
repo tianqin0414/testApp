@@ -58,6 +58,7 @@ const LINE = 1 / PixelRatio.get();
 const TopMenuItem = (props) => {
   const onPress = () => {
     props.onSelect(props.index);
+    alert(`${props.index}`);
   };
   return (
     <TouchableWithoutFeedback onPress={onPress}>
@@ -165,6 +166,7 @@ export default class TopMenu extends Component {
       height,
       fadeInOpacity: new Animated.Value(0),
       selectedIndex: null,
+      num: 0,
     };
   }
 
@@ -172,17 +174,44 @@ export default class TopMenu extends Component {
   componentDidMount() {
 
   }
+    onSelectMenu = (index, subindex, data) => {
+      this.hide(index, subindex);
+      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+      this.props.onSelectMenu(index, subindex, data);
+      this.state.num = index;
+      alert(`${this.state.num}`);
+    }
 
-  renderSeleted() {
-    return (
-      <TouchableOpacity onPress={this.onSelectMenuTQ}>
-        <View>
-          <Text>重置</Text>
-          {this.props.renderContent()}
-        </View>
-      </TouchableOpacity>
-    );
-  }
+    onSelectMenuTQ = () => {
+      this.hide(0, 0);
+      alert('aaa');
+      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+      // this.props.onSelectMenuTQ(index, subindex, data);
+    }
+
+    onHide = (index) => {
+      // 其他的设置为0
+      for (let i = 0, c = this.state.height.length; i < c; ++i) {
+        if (index != i) {
+          this.state.height[i].setValue(0);
+        }
+      }
+      Animated.parallel([ this.createAnimation(index, 0), this.createFade(0), ]).start();
+    }
+
+    onShow = (index) => {
+      Animated.parallel([ this.createAnimation(index, this.state.maxHeight[index]), this.createFade(1), ]).start();
+    }
+
+    onSelect = (index) => {
+      if (index === this.state.selectedIndex) {
+        // 消失
+        this.hide(index);
+      } else {
+        this.setState({ selectedIndex: index, current: index, });
+        this.onShow(index);
+      }
+    }
 
 
     createAnimation = (index, height) => {
@@ -195,6 +224,7 @@ export default class TopMenu extends Component {
       );
     }
 
+
     createFade = (value) => {
       return Animated.timing(
         this.state.fadeInOpacity,
@@ -203,17 +233,6 @@ export default class TopMenu extends Component {
           duration: 0,
         }
       );
-    }
-
-
-    onSelect = (index) => {
-      if (index === this.state.selectedIndex) {
-        // 消失
-        this.hide(index);
-      } else {
-        this.setState({ selectedIndex: index, current: index, });
-        this.onShow(index);
-      }
     }
 
     hide = (index, subselected) => {
@@ -228,34 +247,26 @@ export default class TopMenu extends Component {
     }
 
 
-    onShow = (index) => {
-      Animated.parallel([ this.createAnimation(index, this.state.maxHeight[index]), this.createFade(1), ]).start();
+    renderSeleted() {
+      return (
+        <TouchableOpacity onPress={this.onSelectMenuTQ}>
+          <View >
+            <Text>重置</Text>
+            {this.props.renderContent()}
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    renderSeletedSecond() {
+      return (
+        <TouchableOpacity onPress={this.onSelectMenuTQ}>
+          <View style={{ backgroundColor: 'red', height: 100, }}>
+            <Text>重置11</Text>
+          </View>
+        </TouchableOpacity>
+      );
     }
 
-
-    onHide = (index) => {
-      // 其他的设置为0
-      for (let i = 0, c = this.state.height.length; i < c; ++i) {
-        if (index != i) {
-          this.state.height[i].setValue(0);
-        }
-      }
-      Animated.parallel([ this.createAnimation(index, 0), this.createFade(0), ]).start();
-    }
-
-    onSelectMenu = (index, subindex, data) => {
-      this.hide(index, subindex);
-      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
-      this.props.onSelectMenu(index, subindex, data);
-      alert(`${index}`);
-    }
-
-    onSelectMenuTQ = () => {
-      this.hide(0, 0);
-      alert('aaa');
-      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
-      // this.props.onSelectMenuTQ(index, subindex, data);
-    }
 
     renderList = (d, index) => {
       const subselected = this.state.subselected[index];
@@ -310,11 +321,13 @@ export default class TopMenu extends Component {
               />);
             })}
           </View>
+
           {/* {this.renderSeleted()} */}
           {/* onSelectMenuTQ =(index)=>{ */}
-          {/* {{index} !== 1 ? this.renderSeleted() : null} */}
+          {this.state.num === 1 ? this.renderSeleted() : null}
+          {this.state.num === 2 ? this.renderSeletedSecond() : null}
           {/* } */}
-
+          {this.props.renderContent()}
 
           {/* if(1===1){ */}
           {/* {this.renderSeleted()} */}

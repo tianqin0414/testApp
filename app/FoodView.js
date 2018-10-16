@@ -72,14 +72,11 @@ export default class FoodView extends Component {
 
     renderContent=() => {
       return (
-          <View>
-        {/*<TouchableOpacity>*/}
-          {/*<Text style={styles.text}>index:{this.state.index} subindex:{this.state.subindex} title:{this.state.data.title}</Text>*/}
-        {/*</TouchableOpacity>*/}
-        <Text>
-        ttttt
-        </Text>
-          </View>
+        <View style={{ marginTop: 0, }}>
+          <TouchableOpacity>
+            <Text style={styles.text}>index:{this.state.index} subindex:{this.state.subindex} title:{this.state.data.title}</Text>
+          </TouchableOpacity>
+        </View>
       );
       // alert(this.state.data.title)
     };
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginTop: 100,
+    marginTop: 0,
     justifyContent: 'center',
     alignItems: 'center',
 
