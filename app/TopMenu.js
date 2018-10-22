@@ -58,7 +58,6 @@ const LINE = 1 / PixelRatio.get();
 const TopMenuItem = (props) => {
   const onPress = () => {
     props.onSelect(props.index);
-    alert(`${props.index}`);
   };
   return (
     <TouchableWithoutFeedback onPress={onPress}>
@@ -144,11 +143,12 @@ export default class TopMenu extends Component {
     const maxHeight = [];
     const subselected = [];
     const height = [];
+    const selectedList = [ 1, 2, 3, ];
     // 最大高度
     const max = parseInt((height - 80) * 0.8 / 43);
 
 
-    for (let i = 0, c = array.length; i < c; ++i) {
+    for (let i = 0, c = array.length; i < c; i++) {
       const item = array[i];
       // top[i] = item.data[item.selectedIndex].title;
       top[i] = 'sss';
@@ -167,6 +167,9 @@ export default class TopMenu extends Component {
       fadeInOpacity: new Animated.Value(0),
       selectedIndex: null,
       num: 0,
+      one: null,
+      two: null,
+      three: null,
     };
   }
 
@@ -179,12 +182,14 @@ export default class TopMenu extends Component {
       // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
       this.props.onSelectMenu(index, subindex, data);
       this.state.num = index;
-      alert(`${this.state.num}`);
+      this.state.three = data.title;
     }
 
     onSelectMenuTQ = () => {
-      this.hide(0, 0);
-      alert('aaa');
+      this.hide(2, 0);
+      this.state.three = null;
+      // this.state.num = 0;
+      // alert('aaa');
       // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
       // this.props.onSelectMenuTQ(index, subindex, data);
     }
@@ -240,6 +245,7 @@ export default class TopMenu extends Component {
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
         this.state.top[index] = this.props.config[index].data[subselected].title;
+        this.state.top[index] = 'ssq';
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
       this.setState(opts);
@@ -259,11 +265,10 @@ export default class TopMenu extends Component {
     }
     renderSeletedSecond() {
       return (
-        <TouchableOpacity onPress={this.onSelectMenuTQ}>
-          <View style={{ backgroundColor: 'red', height: 100, }}>
-            <Text>重置11</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={{ backgroundColor: 'red', height: 100, }}>
+
+          <Text onPress={this.onSelectMenuTQ}>{this.state.three}{this.state.two}{this.state.one}</Text>
+        </View>
       );
     }
 
@@ -324,7 +329,8 @@ export default class TopMenu extends Component {
 
           {/* {this.renderSeleted()} */}
           {/* onSelectMenuTQ =(index)=>{ */}
-          {this.state.num === 1 ? this.renderSeleted() : null}
+            {this.state.num === 0 ? this.renderSeletedSecond() : null}
+          {this.state.num === 1 ? this.renderSeletedSecond() : null}
           {this.state.num === 2 ? this.renderSeletedSecond() : null}
           {/* } */}
           {this.props.renderContent()}

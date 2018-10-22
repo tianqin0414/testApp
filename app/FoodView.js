@@ -17,7 +17,7 @@ const { width, height, } = Dimensions.get('window');
 
 const CONFIG = [
   {
-    type: 'subtitle',
+    type: 'title',
     selectedIndex: 0,
     data: [
       { title: '全部', subtitle: '1200m', },
