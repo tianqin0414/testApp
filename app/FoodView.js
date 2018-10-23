@@ -66,9 +66,9 @@ export default class FoodView extends Component {
     };
   }
 
-    onSelectMenuTQ=(index, subindex, data) => {
-      this.setState({ index, subindex, data, });
-    };
+    // onSelectMenuTQ=(index, subindex, data) => {
+    //   this.setState({ index, subindex, data, });
+    // };
 
     renderContent=() => {
       return (
