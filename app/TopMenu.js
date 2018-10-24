@@ -173,8 +173,18 @@ export default class TopMenu extends Component {
 
 
   componentDidMount() {
-
+    this.timer = setTimeout(() =>
+      this.TQTest(),
+    1500
+    );
   }
+
+  componentWillUnmount() {
+    // 如果存在this.timer，则使用clearTimeout清空。
+    // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+    this.timer && clearTimeout(this.timer);
+  }
+
     onSelectMenu = (index, subindex, data) => {
       this.hide(index, subindex);
       // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
@@ -255,11 +265,11 @@ export default class TopMenu extends Component {
         this.state.dic.tt = '1';
         this.state.dic.ppp = '2';
         this.state.dic.s = '3';
-          this.state.dic.stt = '4';
+        this.state.dic.stt = '4';
         // this.state.dic['dd'] = '22';
-        for (var key in this.state.dic) {
-          alert(`${this.state.dic[key]}`);
-        }
+        // for (var key in this.state.dic) {
+        //   alert(`${this.state.dic[key]}`);
+        // }
         // alert(`${this.state.dic.ppp}`);
 
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
