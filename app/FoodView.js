@@ -18,7 +18,7 @@ const { width, height, } = Dimensions.get('window');
 const CONFIG = [
   {
     type: 'title',
-    selectedIndex: 0,
+    selectedIndex: 2,
     data: [
       { title: '全部', subtitle: '1200m', },
       { title: '自助餐', subtitle: '300m', },
@@ -31,7 +31,7 @@ const CONFIG = [
   },
   {
     type: 'title',
-    selectedIndex: 0,
+    selectedIndex: 3,
     data: [ {
       title: '智能排序',
     }, {
@@ -44,7 +44,7 @@ const CONFIG = [
   },
   {
     type: 'title',
-    selectedIndex: 0,
+    selectedIndex: 1,
     data: [ {
       title: '价格',
     }, {

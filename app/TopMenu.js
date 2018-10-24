@@ -144,7 +144,7 @@ export default class TopMenu extends Component {
     const subselected = [];
     const height = [];
     const selectedList = [ 1, 2, 3, ];
-    const test = [];
+    const test = new Array();
     // 最大高度
     const max = parseInt((height - 80) * 0.8 / 43);
     const dic = new Array();
@@ -168,10 +168,6 @@ export default class TopMenu extends Component {
       height,
       fadeInOpacity: new Animated.Value(0),
       selectedIndex: null,
-      num: 0,
-      one: null,
-      two: null,
-      three: null,
     };
   }
 
@@ -183,7 +179,6 @@ export default class TopMenu extends Component {
       this.hide(index, subindex);
       // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
       this.props.onSelectMenu(index, subindex, data);
-      this.state.num = index;
     }
 
     onSelectMenuTQ = (index) => {
@@ -252,11 +247,20 @@ export default class TopMenu extends Component {
           if (1 === 1) {
             // this.state.test.push({ key: `${index}`, value: `${this.props.config[index].data[subselected].title}`, });
             this.state.test = [ { key: 1, value: '22', }, { key: 2, value: '32', }, { key: 2, value: '44', }, ];
+            // this.state.dic = { aa: 11, bb: 22, };
           }
+          // this.state.dic.aa = 133;
         }
-        this.state.dic['dd'] = '11';
-          this.state.dic['dd'] = '22';
-          alert(`${this.state.dic['dd']}`);
+        // this.state.dic.index = this.props.config[index].data[subselected].title;
+        this.state.dic.tt = '1';
+        this.state.dic.ppp = '2';
+        this.state.dic.s = '3';
+          this.state.dic.stt = '4';
+        // this.state.dic['dd'] = '22';
+        for (var key in this.state.dic) {
+          alert(`${this.state.dic[key]}`);
+        }
+        // alert(`${this.state.dic.ppp}`);
 
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
@@ -275,20 +279,13 @@ export default class TopMenu extends Component {
         </TouchableOpacity>
       );
     }
-    // renderSeletedSecond() {
-    //   return (
-    //     <View style={{ backgroundColor: 'red', height: 100, }}>
-    //
-    //       <Text onPress={this.onSelectMenuTQ}>{this.state.three}{this.state.two}{this.state.one}</Text>
-    //     </View>
-    //   );
-    // }
+
 
     renderSeletedSecond() {
       return (
         <View style={{ backgroundColor: 'red', height: 100, }}>
-          {this.state.dic.map((data, index) => {
-            return (<Text key={index} onPress={() => this.onSelectMenuTQ(index)}>{data['dd']}{index}</Text>);
+          {this.state.test.map((data, index) => {
+            return (<Text key={index} onPress={() => this.onSelectMenuTQ(index)}>{data.value}{index}</Text>);
           })}
 
         </View>
