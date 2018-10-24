@@ -261,16 +261,9 @@ export default class TopMenu extends Component {
           }
           // this.state.dic.aa = 133;
         }
-        this.state.dic.index = this.props.config[index].data[subselected].title;
-        // this.state.dic.tt = '1';
-        // this.state.dic.ppp = '2';
-        // this.state.dic.s = '3';
-        // this.state.dic.stt = '4';
-        // this.state.dic['dd'] = '22';
-        // for (var key in this.state.dic) {
-        //   alert(`${this.state.dic[key]}`);
-        // }
-        // alert(`${this.state.dic.ppp}`);
+        this.state.dic[index] = this.props.config[index].data[subselected].title;
+        this.state.dic.tt = '1';
+
 
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
@@ -294,7 +287,7 @@ export default class TopMenu extends Component {
     let itemAry = [];
     for (var key in this.state.dic)
         itemAry.push(
-            <Text key={key}>{this.state.dic[key]}</Text>
+            <Text key={key} style={{fontSize:24,}}>{this.state.dic[key]}{key}</Text>
         );
     return itemAry;
     }
