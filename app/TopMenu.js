@@ -174,8 +174,8 @@ export default class TopMenu extends Component {
 
   componentDidMount() {
     this.timer = setTimeout(() =>
-      this.TQTest(),
-    1500
+      this.renderTest(),
+    5500
     );
   }
 
@@ -261,11 +261,11 @@ export default class TopMenu extends Component {
           }
           // this.state.dic.aa = 133;
         }
-        // this.state.dic.index = this.props.config[index].data[subselected].title;
-        this.state.dic.tt = '1';
-        this.state.dic.ppp = '2';
-        this.state.dic.s = '3';
-        this.state.dic.stt = '4';
+        this.state.dic.index = this.props.config[index].data[subselected].title;
+        // this.state.dic.tt = '1';
+        // this.state.dic.ppp = '2';
+        // this.state.dic.s = '3';
+        // this.state.dic.stt = '4';
         // this.state.dic['dd'] = '22';
         // for (var key in this.state.dic) {
         //   alert(`${this.state.dic[key]}`);
@@ -290,13 +290,19 @@ export default class TopMenu extends Component {
       );
     }
 
+    renderTest() {
+    let itemAry = [];
+    for (var key in this.state.dic)
+        itemAry.push(
+            <Text key={key}>{this.state.dic[key]}</Text>
+        );
+    return itemAry;
+    }
 
     renderSeletedSecond() {
       return (
         <View style={{ backgroundColor: 'red', height: 100, }}>
-          {this.state.test.map((data, index) => {
-            return (<Text key={index} onPress={() => this.onSelectMenuTQ(index)}>{data.value}{index}</Text>);
-          })}
+          {this.renderTest()}
 
         </View>
       );
