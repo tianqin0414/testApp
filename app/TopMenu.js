@@ -148,6 +148,7 @@ export default class TopMenu extends Component {
     // 最大高度
     const max = parseInt((height - 80) * 0.8 / 43);
     const dic = new Array();
+    const dic1 = new Array();
 
     for (let i = 0, c = array.length; i < c; i++) {
       const item = array[i];
@@ -160,6 +161,7 @@ export default class TopMenu extends Component {
 
     // 分析数据
     this.state = {
+      dic1,
       dic,
       test,
       top,
@@ -173,22 +175,14 @@ export default class TopMenu extends Component {
 
 
   componentDidMount() {
-    this.timer = setTimeout(() =>
-      this.renderTest(),
-    5500
-    );
   }
 
   componentWillUnmount() {
-    // 如果存在this.timer，则使用clearTimeout清空。
-    // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
-    this.timer && clearTimeout(this.timer);
   }
 
     onSelectMenu = (index, subindex, data) => {
       this.hide(index, subindex);
-      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
-      this.props.onSelectMenu(index, subindex, data);
+      this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
     }
 
     onSelectMenuTQ = (index) => {
@@ -246,27 +240,40 @@ export default class TopMenu extends Component {
     }
 
     hide = (index, subselected) => {
+      function Computer(brand, price) {
+        this.brand = brand;
+        this.price = price;
+      }
       let opts = { selectedIndex: null, current: index, };
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
         this.state.top[index] = this.props.config[index].data[subselected].title;
         const arr = this.state.test;
-        if (subselected != 0) {
-          // this.state.dic[index] = this.props.config[index].data[subselected].title;
-          // this.state.test.push({`${index}`:this.props.config[index].data[subselected].titl,});
-          if (1 === 1) {
-            // this.state.test.push({ key: `${index}`, value: `${this.props.config[index].data[subselected].title}`, });
-            this.state.test = [ { key: 1, value: '22', }, { key: 2, value: '32', }, { key: 2, value: '44', }, ];
-            // this.state.dic = { aa: 11, bb: 22, };
-          }
-          // this.state.dic.aa = 133;
-        }
-        this.state.dic[index] = this.props.config[index].data[subselected].title;
-        this.state.dic.tt = '1';
+        // this.state.dic[index] = this.props.config[index].data[subselected].title;
+        // this.state.dic[0] = { name: '安徽', value: 54, m: 2, };
+        // this.state.dic[1] = { name: '新疆', value: 12, m: 3, };
+        // this.state.dic[2] = { name: '江西', value: 5, m: 1, };
+        //   this.state.dic[1] = { name: '新疆ttt', value: 12, m: 3, };
 
+        //   this.state.dic[2] = { name: '江西', value: 5, m: new Date().getTime(), };
+        //   // this.state.dic[0] = '000';
+        // 指定排序的比较函数
 
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
+        this.state.dic[index] = { name: this.props.config[index].data[subselected].title, value: 5, m: new Date().getTime(), };
+
+        function compare(property) {
+            return function (obj1, obj2) {
+                const value1 = obj1[property];
+                const value2 = obj2[property];
+                return value1 - value2; // 升序
+            };
+        }
+          this.state.dic = this.state.dic.sort(compare("m"));
+
+
+
       this.setState(opts);
       this.onHide(index);
     }
@@ -284,12 +291,13 @@ export default class TopMenu extends Component {
     }
 
     renderTest() {
-    let itemAry = [];
-    for (var key in this.state.dic)
+      const itemAry = [];
+      for (const index in this.state.dic) {
         itemAry.push(
-            <Text key={key} style={{fontSize:24,}}>{this.state.dic[key]}{key}</Text>
+          <Text key={index} style={{ fontSize: 24, }}>{this.state.dic[index].name}</Text>
         );
-    return itemAry;
+      }
+      return itemAry;
     }
 
     renderSeletedSecond() {
@@ -359,7 +367,7 @@ export default class TopMenu extends Component {
           {/* onSelectMenuTQ =(index)=>{ */}
           {/* {this.state.num === 0 ? this.renderSeletedSecond() : null} */}
 
-          {this.state.test.length == 0 ? null : this.renderSeletedSecond() }
+          {this.state.dic.length == 0 ? null : this.renderSeletedSecond() }
           {/* } */}
           {this.props.renderContent()}
 
