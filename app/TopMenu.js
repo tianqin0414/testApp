@@ -147,7 +147,8 @@ export default class TopMenu extends Component {
     const test = new Array();
     // 最大高度
     const max = parseInt((height - 80) * 0.8 / 43);
-    const dic = new Array();
+    // const dic = new Array();
+    const dic = {};
     const dic1 = new Array();
 
     for (let i = 0, c = array.length; i < c; i++) {
@@ -248,30 +249,10 @@ export default class TopMenu extends Component {
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
         this.state.top[index] = this.props.config[index].data[subselected].title;
-        const arr = this.state.test;
-        // this.state.dic[index] = this.props.config[index].data[subselected].title;
-        // this.state.dic[0] = { name: '安徽', value: 54, m: 2, };
-        // this.state.dic[1] = { name: '新疆', value: 12, m: 3, };
-        // this.state.dic[2] = { name: '江西', value: 5, m: 1, };
-        //   this.state.dic[1] = { name: '新疆ttt', value: 12, m: 3, };
-
-        //   this.state.dic[2] = { name: '江西', value: 5, m: new Date().getTime(), };
-        //   // this.state.dic[0] = '000';
         // 指定排序的比较函数
-
+          this.state.dic[index] = { name: this.props.config[index].data[subselected].title, value: 5, m: new Date().getTime(), };
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
-        this.state.dic[index] = { name: this.props.config[index].data[subselected].title, value: 5, m: new Date().getTime(), };
-
-        function compare(property) {
-            return function (obj1, obj2) {
-                const value1 = obj1[property];
-                const value2 = obj2[property];
-                return value1 - value2; // 升序
-            };
-        }
-          this.state.dic = this.state.dic.sort(compare("m"));
-
 
 
       this.setState(opts);
@@ -291,12 +272,29 @@ export default class TopMenu extends Component {
     }
 
     renderTest() {
-      const itemAry = [];
-      for (const index in this.state.dic) {
-        itemAry.push(
-          <Text key={index} style={{ fontSize: 24, }}>{this.state.dic[index].name}</Text>
-        );
+      function compare(property) {
+        return function (obj1, obj2) {
+          const value1 = obj1[property];
+          const value2 = obj2[property];
+          return value1 - value2; // 升序
+        };
       }
+
+      const itemAry = [];
+      const arr = Object.values(this.state.dic).sort(compare("m"));
+        // const arr = this.state.dic.sort(compare("m"));
+      arr.forEach((row, index) => {
+        itemAry.push(
+          <Text key={index} style={{ fontSize: 24, }}>{row.name}</Text>
+        );
+      });
+      /*
+        for (const index in this.state.dic) {
+          itemAry.push(
+            <Text key={index} style={{ fontSize: 24, }}>{this.state.dic[index].name}</Text>
+          );
+        }
+        */
       return itemAry;
     }
 
@@ -367,7 +365,7 @@ export default class TopMenu extends Component {
           {/* onSelectMenuTQ =(index)=>{ */}
           {/* {this.state.num === 0 ? this.renderSeletedSecond() : null} */}
 
-          {this.state.dic.length == 0 ? null : this.renderSeletedSecond() }
+          {Object.values(this.state.dic).length == 0 ? null : this.renderSeletedSecond() }
           {/* } */}
           {this.props.renderContent()}
 
