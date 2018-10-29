@@ -31,10 +31,15 @@ const CONFIG = [
   },
   {
     type: 'title',
-    selectedIndex: 0,
+    category: '价格',
     data: [ {
-      option: '价格',
+      option: '0-4k',
     }, {
+      option: '4-8k',
+    }, {
+      option: '8-12k',
+    },
+    {
       option: '0-4k',
     }, {
       option: '4-8k',
@@ -44,11 +49,16 @@ const CONFIG = [
   },
   {
     type: 'title',
-    selectedIndex: 0,
+    category: '价格',
     data: [ {
-      option: '价格tt',
-    }, {
       option: '0-4kdd',
+    }, {
+      option: '4-8k',
+    }, {
+      option: '8-12k',
+    },
+    {
+      option: '0-4k',
     }, {
       option: '4-8k',
     }, {

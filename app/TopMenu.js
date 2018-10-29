@@ -144,27 +144,31 @@ export default class TopMenu extends Component {
     const subselected = [];
     const height = [];
     const selectedList = [ 1, 2, 3, ];
-    const test = new Array();
     // 最大高度
     const max = parseInt((height - 80) * 0.8 / 43);
     // const dic = new Array();
     const dic = {};
-    const dic1 = new Array();
 
     for (let i = 0, c = array.length; i < c; i++) {
       const item = array[i];
-      top[i] = item.data[item.selectedIndex].option;
+      if (item.category != null) {
+        top[i] = item.category;
+      } else {
+        top[i] = item.data[item.selectedIndex].option;
+      }
       maxHeight[i] = Math.min(item.data.length, max) * 43;
-      subselected[i] = item.selectedIndex;
+      if (item.selectedIndex != null) {
+        subselected[i] = item.selectedIndex;
+      }
+
       height[i] = new Animated.Value(0);
     }
 
 
     // 分析数据
     this.state = {
-      dic1,
+      array,
       dic,
-      test,
       top,
       maxHeight,
       subselected,
@@ -188,7 +192,6 @@ export default class TopMenu extends Component {
 
     onSelectMenuTQ = (index) => {
       this.hide(index, 0);
-      this.state.test.splice(index, 1);
     }
 
     TQTest = () => {
@@ -248,9 +251,15 @@ export default class TopMenu extends Component {
       let opts = { selectedIndex: null, current: index, };
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
-        this.state.top[index] = this.props.config[index].data[subselected].option;
+        const item = this.state.array[index];
+        if (item.category == null) {
+          this.state.top[index] = this.props.config[index].data[subselected].option;
+        }
         // 指定排序的比较函数
+        if (this.state.array[index].category != null) {
           this.state.dic[index] = { name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
+        }
+
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
 
@@ -282,7 +291,7 @@ export default class TopMenu extends Component {
 
       const itemAry = [];
       const arr = Object.values(this.state.dic).sort(compare("m"));
-        // const arr = this.state.dic.sort(compare("m"));
+      // const arr = this.state.dic.sort(compare("m"));
       arr.forEach((row, index) => {
         itemAry.push(
           <Text key={index} style={{ fontSize: 24, }}>{row.name}</Text>
