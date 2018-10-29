@@ -86,7 +86,7 @@ const Subtitle = (props) => {
       <View style={styles.tableItem}>
         <View style={styles.row}>
           {/* {props.selected && <Check />} */}
-          <Text style={textStyle}>{props.data.title}</Text>
+          <Text style={textStyle}>{props.data.option}</Text>
         </View>
         <Text style={rightTextStyle}>{props.data.subtitle}</Text>
       </View>
@@ -111,7 +111,7 @@ const Title = (props) => {
       <View style={styles.titleItem}>
         {/* {props.selected && <Check />} */}
 
-        <Text style={textStyle}>{props.data.title}rr</Text>
+        <Text style={textStyle}>{props.data.option}rr</Text>
       </View>
     </TouchableHighlight>
   );
@@ -153,7 +153,7 @@ export default class TopMenu extends Component {
 
     for (let i = 0, c = array.length; i < c; i++) {
       const item = array[i];
-      top[i] = item.data[item.selectedIndex].title;
+      top[i] = item.data[item.selectedIndex].option;
       maxHeight[i] = Math.min(item.data.length, max) * 43;
       subselected[i] = item.selectedIndex;
       height[i] = new Animated.Value(0);
@@ -248,9 +248,9 @@ export default class TopMenu extends Component {
       let opts = { selectedIndex: null, current: index, };
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
-        this.state.top[index] = this.props.config[index].data[subselected].title;
+        this.state.top[index] = this.props.config[index].data[subselected].option;
         // 指定排序的比较函数
-          this.state.dic[index] = { name: this.props.config[index].data[subselected].title, value: 5, m: new Date().getTime(), };
+          this.state.dic[index] = { name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
         opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
       }
 

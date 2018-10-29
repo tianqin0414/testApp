@@ -19,55 +19,42 @@ const CONFIG = [
   {
     type: 'title',
     selectedIndex: 0,
-    data: [
-      { title: '全部', subtitle: '1200m', },
-      { title: '自助餐', subtitle: '300m', },
-      { title: '自助餐', subtitle: '200m', },
-      { title: '自助餐', subtitle: '500m', },
-      { title: '自助餐', subtitle: '800m', },
-      { title: '自助餐', subtitle: '700m', },
-      { title: '自助餐', subtitle: '900m', },
-    ],
-  },
-  {
-    type: 'title',
-    selectedIndex: 0,
     data: [ {
-      title: '智能排序',
+      option: '智能排序',
     }, {
-      title: '离我最近',
+      option: '离我最近',
     }, {
-      title: '好评优先',
+      option: '好评优先',
     }, {
-      title: '人气最高',
+      option: '人气最高',
     }, ],
   },
   {
     type: 'title',
     selectedIndex: 0,
     data: [ {
-      title: '价格',
+      option: '价格',
     }, {
-      title: '0-4k',
+      option: '0-4k',
     }, {
-      title: '4-8k',
+      option: '4-8k',
     }, {
-      title: '8-12k',
+      option: '8-12k',
     }, ],
   },
-    {
-        type: 'title',
-        selectedIndex: 0,
-        data: [ {
-            title: '价格tt',
-        }, {
-            title: '0-4kdd',
-        }, {
-            title: '4-8k',
-        }, {
-            title: '8-12k',
-        }, ],
-    },
+  {
+    type: 'title',
+    selectedIndex: 0,
+    data: [ {
+      option: '价格tt',
+    }, {
+      option: '0-4kdd',
+    }, {
+      option: '4-8k',
+    }, {
+      option: '8-12k',
+    }, ],
+  },
 ];
 
 
