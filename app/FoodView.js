@@ -30,7 +30,7 @@ const CONFIG = [
     }, ],
   },
   {
-    type: 'title',
+    type: 'Subtitle',
     category: '价格',
     data: [ {
       option: '0-4k',
@@ -51,7 +51,7 @@ const CONFIG = [
     type: 'title',
     category: '价格',
     data: [ {
-      option: '0-4kdd',
+      option: '0-4k',
     }, {
       option: '4-8k',
     }, {

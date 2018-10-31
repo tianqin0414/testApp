@@ -99,7 +99,7 @@ const Title = (props) => {
     [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
     [ styles.tableItemText, styles.margin, ];
 
-    // const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
+  const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
 
 
   const onPress = () => {
@@ -268,19 +268,19 @@ export default class TopMenu extends Component {
       this.onHide(index);
     }
 
+    //
+    // renderSeleted() {
+    //   return (
+    //     <TouchableOpacity>
+    //       <View >
+    //         <Text>重置</Text>
+    //         {this.props.renderContent()}
+    //       </View>
+    //     </TouchableOpacity>
+    //   );
+    // }
 
-    renderSeleted() {
-      return (
-        <TouchableOpacity>
-          <View >
-            <Text>重置</Text>
-            {this.props.renderContent()}
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
-    renderTest() {
+    renderSelected() {
       function compare(property) {
         return function (obj1, obj2) {
           const value1 = obj1[property];
@@ -310,27 +310,26 @@ export default class TopMenu extends Component {
     renderSeletedSecond() {
       return (
         <View style={{ backgroundColor: 'red', height: 100, }}>
-          {this.renderTest()}
+          {this.renderSelected()}
 
         </View>
       );
     }
 
-    renderList = (d, index) => {
+    renderTestB = (d, index) => {
       const subselected = this.state.subselected[index];
       let Comp = null;
       if (d.type == 'title') {
         Comp = Title;
       } else {
-        Comp = Subtitle;
+        Comp = Title;
       }
 
       const enabled = this.state.selectedIndex == index || this.state.current == index;
-
       return (
         <Animated.View
           key={index}
-          pointerEvents={enabled ? 'auto' : 'none'}
+          // pointerEvents={enabled ? 'auto' : 'none'}
           style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
         >
           <ScrollView style={styles.scroll}>
@@ -347,6 +346,80 @@ export default class TopMenu extends Component {
           </ScrollView>
         </Animated.View>
       );
+    }
+
+    renderTestA = (d, index) => {
+      const subselected = this.state.subselected[index];
+      let Comp = null;
+      if (d.type == 'title') {
+        Comp = Title;
+      } else {
+        Comp = Subtitle;
+      }
+
+      const enabled = this.state.selectedIndex == index || this.state.current == index;
+      return (
+        <Animated.View
+          key={index}
+          // pointerEvents={enabled ? 'auto' : 'none'}
+          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
+        >
+          <ScrollView style={styles.scroll}>
+            {d.data.map((data, subindex) => {
+              return (<Comp
+                onSelectMenu={this.onSelectMenu}
+                index={index}
+                subindex={subindex}
+                data={data}
+                selected={subselected == subindex}
+                key={subindex}
+              />);
+            })}
+          </ScrollView>
+        </Animated.View>
+      );
+    }
+
+    renderList = (d, index) => {
+      // const subselected = this.state.subselected[index];
+      // let Comp = null;
+      // if (d.type == 'title') {
+      //   Comp = Title;
+      // } else {
+      //   Comp = Subtitle;
+      // }
+      //
+      // const enabled = this.state.selectedIndex == index || this.state.current == index;
+      if (1 === 1) {
+        return (
+          this.renderTestB(d, index)
+        );
+      }
+      return (
+        this.renderTestB(d, index)
+      );
+
+
+      // return (
+      //   <Animated.View
+      //     // key={index}
+      //     // pointerEvents={enabled ? 'auto' : 'none'}
+      //     style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
+      //   >
+      //     <ScrollView style={styles.scroll}>
+      //       {d.data.map((data, subindex) => {
+      //         return (<Comp
+      //           onSelectMenu={this.onSelectMenu}
+      //           index={index}
+      //           subindex={subindex}
+      //           data={data}
+      //           selected={subselected == subindex}
+      //           key={subindex}
+      //         />);
+      //       })}
+      //     </ScrollView>
+      //   </Animated.View>
+      // );
     }
 
 
