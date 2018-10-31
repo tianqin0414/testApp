@@ -117,24 +117,6 @@ const Title = (props) => {
   );
 };
 
-// const Check = () => {
-//   return (
-//     <Surface
-//       width={18}
-//       height={12}
-//     >
-//       <Group scale={0.03}>
-//         <Shape
-//           fill={COLOR_HIGH}
-//           d={`M494,52c-13-13-33-13-46,0L176,324L62,211c-13-13-33-13-46,0s-13,33,0,46l137,136c6,6,15,10,23,10s17-4,23-10L494,99
-//       C507,86,507,65,494,52z`}
-//         />
-//       </Group>
-//     </Surface>
-//   );
-// };
-
-
 export default class TopMenu extends Component {
   constructor(props) {
     super(props);
