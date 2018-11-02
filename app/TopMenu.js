@@ -13,47 +13,18 @@ import {
   ART,
   View,
   Image,
+  FlatList,
 } from 'react-native';
 
 // const { Surface, Shape, Path, Group, } = ART;
 
 const { width, height, } = Dimensions.get('window');
 
-const T_WIDTH = 7;
-const T_HEIGHT = 4;
-
 const COLOR_HIGH = '#6057CA';
 const COLOR_NORMAL = '#6c6c6c';
 
 const LINE = 1 / PixelRatio.get();
 
-// class Triangle extends React.Component {
-//   render() {
-//     let path;
-//     let fill;
-//     if (this.props.selected) {
-//       fill = COLOR_HIGH;
-//       path = new Path()
-//         .moveTo(T_WIDTH / 2, 0)
-//         .lineTo(0, T_HEIGHT)
-//         .lineTo(T_WIDTH, T_HEIGHT)
-//         .close();
-//     } else {
-//       fill = COLOR_NORMAL;
-//       path = new Path()
-//         .moveTo(0, 0)
-//         .lineTo(T_WIDTH, 0)
-//         .lineTo(T_WIDTH / 2, T_HEIGHT)
-//         .close();
-//     }
-//
-//     return (
-//       <Surface width={T_WIDTH} height={T_HEIGHT}>
-//         <Shape d={path} stroke="#00000000" fill={fill} strokeWidth={0} />
-//       </Surface>
-//     );
-//   }
-// }
 
 const TopMenuItem = (props) => {
   const onPress = () => {
@@ -67,53 +38,6 @@ const TopMenuItem = (props) => {
         <Image style={{ height: 15, width: 15, }} source={!props.selected ? require('../images/ic_triangle_down.png') : require('../images/ic_triangle_up.png')} />
       </View>
     </TouchableWithoutFeedback>
-  );
-};
-
-const Subtitle = (props) => {
-  const textStyle = props.selected ?
-    [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
-    [ styles.tableItemText, styles.margin, ];
-
-  const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
-
-  const onPress = () => {
-    props.onSelectMenu(props.index, props.subindex, props.data);
-  };
-
-  return (
-    <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
-      <View style={styles.tableItem}>
-        <View style={styles.row}>
-          {/* {props.selected && <Check />} */}
-          <Text style={textStyle}>{props.data.option}</Text>
-        </View>
-        <Text style={rightTextStyle}>{props.data.subtitle}</Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-const Title = (props) => {
-  const textStyle = props.selected ?
-    [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
-    [ styles.tableItemText, styles.margin, ];
-
-  const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
-
-
-  const onPress = () => {
-    props.onSelectMenu(props.index, props.subindex, props.data);
-  };
-
-  return (
-    <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
-      <View style={styles.titleItem}>
-        {/* {props.selected && <Check />} */}
-
-        <Text style={textStyle}>{props.data.option}rr</Text>
-      </View>
-    </TouchableHighlight>
   );
 };
 
@@ -171,14 +95,6 @@ export default class TopMenu extends Component {
       this.hide(index, subindex);
       this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
     }
-
-    onSelectMenuTQ = (index) => {
-      this.hide(index, 0);
-    }
-
-    TQTest = () => {
-      alert('111');
-    }
     onHide = (index) => {
       // 其他的设置为0
       for (let i = 0, c = this.state.height.length; i < c; ++i) {
@@ -226,10 +142,6 @@ export default class TopMenu extends Component {
     }
 
     hide = (index, subselected) => {
-      function Computer(brand, price) {
-        this.brand = brand;
-        this.price = price;
-      }
       let opts = { selectedIndex: null, current: index, };
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
@@ -250,18 +162,6 @@ export default class TopMenu extends Component {
       this.onHide(index);
     }
 
-    //
-    // renderSeleted() {
-    //   return (
-    //     <TouchableOpacity>
-    //       <View >
-    //         <Text>重置</Text>
-    //         {this.props.renderContent()}
-    //       </View>
-    //     </TouchableOpacity>
-    //   );
-    // }
-
     renderSelected() {
       function compare(property) {
         return function (obj1, obj2) {
@@ -279,13 +179,6 @@ export default class TopMenu extends Component {
           <Text key={index} style={{ fontSize: 24, }}>{row.name}</Text>
         );
       });
-      /*
-        for (const index in this.state.dic) {
-          itemAry.push(
-            <Text key={index} style={{ fontSize: 24, }}>{this.state.dic[index].name}</Text>
-          );
-        }
-        */
       return itemAry;
     }
 
@@ -298,46 +191,22 @@ export default class TopMenu extends Component {
       );
     }
 
-    renderTestB = (d, index) => {
-      const subselected = this.state.subselected[index];
-      let Comp = null;
-      if (d.type == 'title') {
-        Comp = Title;
-      } else {
-        Comp = Title;
-      }
-
-      const enabled = this.state.selectedIndex == index || this.state.current == index;
+    renderItemView = ({ item, }) => {
       return (
-        <Animated.View
-          key={index}
-          // pointerEvents={enabled ? 'auto' : 'none'}
-          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
-        >
-          <ScrollView style={styles.scroll}>
-            {d.data.map((data, subindex) => {
-              return (<Comp
-                onSelectMenu={this.onSelectMenu}
-                index={index}
-                subindex={subindex}
-                data={data}
-                selected={subselected == subindex}
-                key={subindex}
-              />);
-            })}
-          </ScrollView>
-        </Animated.View>
+        <TouchableOpacity>
+          <View style={styles.button}>
+            <View>
+              <Text>
+                {item.option}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
       );
     }
 
-    renderTestA = (d, index) => {
+    renderTestB = (d, index) => {
       const subselected = this.state.subselected[index];
-      let Comp = null;
-      if (d.type == 'title') {
-        Comp = Title;
-      } else {
-        Comp = Subtitle;
-      }
 
       const enabled = this.state.selectedIndex == index || this.state.current == index;
       return (
@@ -347,32 +216,20 @@ export default class TopMenu extends Component {
           style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
         >
           <ScrollView style={styles.scroll}>
-            {d.data.map((data, subindex) => {
-              return (<Comp
-                onSelectMenu={this.onSelectMenu}
-                index={index}
-                subindex={subindex}
-                data={data}
-                selected={subselected == subindex}
-                key={subindex}
-              />);
-            })}
+            <FlatList
+              data={d.data}
+              columnWrapperStyle={styles.rowZero}
+              numColumns={3}
+              renderItem={this.renderItemView}
+              keyExtractor={(renderItem, index) => index.toString()}
+            />
           </ScrollView>
         </Animated.View>
       );
     }
 
     renderList = (d, index) => {
-      // const subselected = this.state.subselected[index];
-      // let Comp = null;
-      // if (d.type == 'title') {
-      //   Comp = Title;
-      // } else {
-      //   Comp = Subtitle;
-      // }
-      //
-      // const enabled = this.state.selectedIndex == index || this.state.current == index;
-      if (1 === 1) {
+      if (d.data.length > 4) {
         return (
           this.renderTestB(d, index)
         );
@@ -382,26 +239,6 @@ export default class TopMenu extends Component {
       );
 
 
-      // return (
-      //   <Animated.View
-      //     // key={index}
-      //     // pointerEvents={enabled ? 'auto' : 'none'}
-      //     style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
-      //   >
-      //     <ScrollView style={styles.scroll}>
-      //       {d.data.map((data, subindex) => {
-      //         return (<Comp
-      //           onSelectMenu={this.onSelectMenu}
-      //           index={index}
-      //           subindex={subindex}
-      //           data={data}
-      //           selected={subselected == subindex}
-      //           key={subindex}
-      //         />);
-      //       })}
-      //     </ScrollView>
-      //   </Animated.View>
-      // );
     }
 
 
@@ -425,17 +262,8 @@ export default class TopMenu extends Component {
             })}
           </View>
 
-          {/* {this.renderSeleted()} */}
-          {/* onSelectMenuTQ =(index)=>{ */}
-          {/* {this.state.num === 0 ? this.renderSeletedSecond() : null} */}
-
           {Object.values(this.state.dic).length == 0 ? null : this.renderSeletedSecond() }
-          {/* } */}
           {this.props.renderContent()}
-
-          {/* if(1===1){ */}
-          {/* {this.renderSeleted()} */}
-          {/* } */}
           <View style={styles.bgContainer} pointerEvents={this.state.selectedIndex !== null ? "auto" : "none"}>
             {/* <TouchableHighlight> */}
             <Animated.View style={[ styles.bg, { opacity: this.state.fadeInOpacity, }, ]} />
@@ -450,7 +278,10 @@ export default class TopMenu extends Component {
 }
 
 const styles = StyleSheet.create({
-
+  rowZero: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   scroll: { flex: 1, backgroundColor: '#fff', },
   bgContainer: { position: 'absolute', top: 40, width, height, },
   bg: {
@@ -506,13 +337,13 @@ const styles = StyleSheet.create({
   },
   menuTextHigh: {
     marginRight: 3,
-    fontSize: 13,
+    fontSize: 20,
     color: COLOR_HIGH,
   },
   menuText: {
     marginRight: 3,
-    fontSize: 13,
-    color: COLOR_NORMAL,
+    fontSize: 20,
+    color: 'black',
   },
   topMenu: {
     flexDirection: 'row',

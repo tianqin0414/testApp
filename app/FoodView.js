@@ -45,6 +45,9 @@ const CONFIG = [
       option: '4-8k',
     }, {
       option: '8-12k',
+    },
+    {
+      option: '8-12k',
     }, ],
   },
   {
