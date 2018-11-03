@@ -193,18 +193,44 @@ export default class TopMenu extends Component {
 
     renderItemView = ({ item, }) => {
       return (
-        <TouchableOpacity>
-          <View style={styles.button}>
-            <View>
-              <Text>
-                {item.option}
-              </Text>
-            </View>
-          </View>
+        <TouchableOpacity style={styles.itemSelect}>
+          <Text style={{ color: '#2d2d2d',fontSize:15, }}>
+            {item.option}
+          </Text>
         </TouchableOpacity>
       );
     }
+    renderTestA = (d, index) => {
+        const subselected = this.state.subselected[index];
+        let Comp = null;
+        if (d.type == 'title') {
+            Comp = Title;
+        } else {
+            Comp = Title;
+        }
 
+        const enabled = this.state.selectedIndex == index || this.state.current == index;
+        return (
+            <Animated.View
+                key={index}
+                // pointerEvents={enabled ? 'auto' : 'none'}
+                style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
+            >
+                <ScrollView style={styles.scroll}>
+                    {d.data.map((data, subindex) => {
+                        return (<Comp
+                            onSelectMenu={this.onSelectMenu}
+                            index={index}
+                            subindex={subindex}
+                            data={data}
+                            selected={subselected == subindex}
+                            key={subindex}
+                        />);
+                    })}
+                </ScrollView>
+            </Animated.View>
+        );
+    }
     renderTestB = (d, index) => {
       const subselected = this.state.subselected[index];
 
@@ -215,7 +241,7 @@ export default class TopMenu extends Component {
           // pointerEvents={enabled ? 'auto' : 'none'}
           style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
         >
-          <ScrollView style={styles.scroll}>
+          <View style={styles.scroll}>
             <FlatList
               data={d.data}
               columnWrapperStyle={styles.rowZero}
@@ -223,7 +249,7 @@ export default class TopMenu extends Component {
               renderItem={this.renderItemView}
               keyExtractor={(renderItem, index) => index.toString()}
             />
-          </ScrollView>
+          </View>
         </Animated.View>
       );
     }
@@ -237,8 +263,6 @@ export default class TopMenu extends Component {
       return (
         this.renderTestB(d, index)
       );
-
-
     }
 
 
@@ -278,11 +302,12 @@ export default class TopMenu extends Component {
 }
 
 const styles = StyleSheet.create({
+  itemSelect: { backgroundColor: '#f4f4f4', height: 40, width: 90, alignItems: 'center', marginTop: 10, marginLeft: 15, marginRight: 15, marginBottom: 10, justifyContent: 'center', },
   rowZero: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
-  scroll: { flex: 1, backgroundColor: '#fff', },
+  scroll: { flex: 1, backgroundColor: '#fff', justifyContent: 'space-around', },
   bgContainer: { position: 'absolute', top: 40, width, height, },
   bg: {
     flex: 1,
