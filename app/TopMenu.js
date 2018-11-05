@@ -147,7 +147,7 @@ export default class TopMenu extends Component {
 
 
     createAnimation = (index, height) => {
-    alert(`${this.state.height[index].value}`);
+    alert(`${height}`);
       return Animated.timing(
         this.state.height[index],
         {
