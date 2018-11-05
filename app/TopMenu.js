@@ -41,6 +41,29 @@ const TopMenuItem = (props) => {
   );
 };
 
+const Title = (props) => {
+  const textStyle = props.selected ?
+    [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
+    [ styles.tableItemText, styles.margin, ];
+
+  const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
+
+
+  const onPress = () => {
+    props.onSelectMenu(props.index, props.subindex, props.data);
+  };
+
+  return (
+    <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
+      <View style={styles.titleItem}>
+        {/* {props.selected && <Check />} */}
+
+        <Text style={textStyle}>{props.data.option}rr</Text>
+      </View>
+    </TouchableHighlight>
+  );
+};
+
 export default class TopMenu extends Component {
   constructor(props) {
     super(props);
@@ -97,11 +120,14 @@ export default class TopMenu extends Component {
     }
     onHide = (index) => {
       // 其他的设置为0
-      for (let i = 0, c = this.state.height.length; i < c; ++i) {
-        if (index != i) {
-          this.state.height[i].setValue(0);
+      // for (let i = 0, c = this.state.height.length; i < c; ++i) {
+      //   if (index != i) {
+      //     this.state.height[i].setValue(0);
+      //   }
+      // }
+        if (index==0){
+
         }
-      }
       Animated.parallel([ this.createAnimation(index, 0), this.createFade(0), ]).start();
     }
 
@@ -121,6 +147,7 @@ export default class TopMenu extends Component {
 
 
     createAnimation = (index, height) => {
+    alert(`${this.state.height[index].value}`);
       return Animated.timing(
         this.state.height[index],
         {
@@ -192,44 +219,47 @@ export default class TopMenu extends Component {
     }
 
     renderItemView = ({ item, }) => {
+      const onPress = () => {
+        props.onSelectMenu(props.index, props.subindex, props.data);
+      };
       return (
-        <TouchableOpacity style={styles.itemSelect}>
-          <Text style={{ color: '#2d2d2d',fontSize:15, }}>
+        <TouchableOpacity style={styles.itemSelect} onPress={onPress}>
+          <Text style={{ color: '#2d2d2d', fontSize: 15, }}>
             {item.option}
           </Text>
         </TouchableOpacity>
       );
     }
     renderTestA = (d, index) => {
-        const subselected = this.state.subselected[index];
-        let Comp = null;
-        if (d.type == 'title') {
-            Comp = Title;
-        } else {
-            Comp = Title;
-        }
+      const subselected = this.state.subselected[index];
+      let Comp = null;
+      if (d.type == 'title') {
+        Comp = Title;
+      } else {
+        Comp = Title;
+      }
 
-        const enabled = this.state.selectedIndex == index || this.state.current == index;
-        return (
-            <Animated.View
-                key={index}
-                // pointerEvents={enabled ? 'auto' : 'none'}
-                style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
-            >
-                <ScrollView style={styles.scroll}>
-                    {d.data.map((data, subindex) => {
-                        return (<Comp
-                            onSelectMenu={this.onSelectMenu}
-                            index={index}
-                            subindex={subindex}
-                            data={data}
-                            selected={subselected == subindex}
-                            key={subindex}
-                        />);
-                    })}
-                </ScrollView>
-            </Animated.View>
-        );
+      const enabled = this.state.selectedIndex == index || this.state.current == index;
+      return (
+        <Animated.View
+          key={index}
+          // pointerEvents={enabled ? 'auto' : 'none'}
+          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
+        >
+          <ScrollView style={styles.scrollA}>
+            {d.data.map((data, subindex) => {
+              return (<Comp
+                onSelectMenu={this.onSelectMenu}
+                index={index}
+                subindex={subindex}
+                data={data}
+                selected={subselected == subindex}
+                key={subindex}
+              />);
+            })}
+          </ScrollView>
+        </Animated.View>
+      );
     }
     renderTestB = (d, index) => {
       const subselected = this.state.subselected[index];
@@ -238,7 +268,7 @@ export default class TopMenu extends Component {
       return (
         <Animated.View
           key={index}
-          // pointerEvents={enabled ? 'auto' : 'none'}
+          pointerEvents={enabled ? 'auto' : 'none'}
           style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
         >
           <View style={styles.scroll}>
@@ -261,7 +291,7 @@ export default class TopMenu extends Component {
         );
       }
       return (
-        this.renderTestB(d, index)
+        this.renderTestA(d, index)
       );
     }
 
@@ -307,6 +337,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  scrollA: { flex: 1, backgroundColor: '#fff', },
   scroll: { flex: 1, backgroundColor: '#fff', justifyContent: 'space-around', },
   bgContainer: { position: 'absolute', top: 40, width, height, },
   bg: {
