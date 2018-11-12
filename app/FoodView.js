@@ -18,6 +18,7 @@ const { width, height, } = Dimensions.get('window');
 const CONFIG = [
   {
     type: 'title',
+    category: '价格',
     selectedIndex: 0,
     data: [ {
       option: '能收回',
