@@ -20,7 +20,7 @@ const CONFIG = [
     type: 'title',
     selectedIndex: 0,
     data: [ {
-      option: '智能排序',
+      option: '能收回',
     }, {
       option: '离我最近',
     }, {
@@ -31,7 +31,7 @@ const CONFIG = [
   },
   {
     type: 'Subtitle',
-    category: '价格',
+    category: '不能收回',
     data: [ {
       option: '0-4k',
     }, {

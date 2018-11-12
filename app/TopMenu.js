@@ -85,7 +85,13 @@ export default class TopMenu extends Component {
       } else {
         top[i] = item.data[item.selectedIndex].option;
       }
-      maxHeight[i] = Math.min(item.data.length, max) * 43;
+      // maxHeight[i] = Math.min(item.data.length, max) * 43;
+      const length = item.data.length;
+      if (length > 4) {
+        maxHeight[i] = Math.ceil(length / 3) * 60;
+      } else {
+        maxHeight[i] = length * 43;
+      }
       if (item.selectedIndex != null) {
         subselected[i] = item.selectedIndex;
       }
@@ -125,9 +131,9 @@ export default class TopMenu extends Component {
       //     this.state.height[i].setValue(0);
       //   }
       // }
-        if (index==0){
+      if (index == 0) {
 
-        }
+      }
       Animated.parallel([ this.createAnimation(index, 0), this.createFade(0), ]).start();
     }
 
@@ -147,7 +153,7 @@ export default class TopMenu extends Component {
 
 
     createAnimation = (index, height) => {
-    alert(`${height}`);
+    // alert(`${height}`);
       return Animated.timing(
         this.state.height[index],
         {
