@@ -64,6 +64,45 @@ const Title = (props) => {
   );
 };
 
+
+class List extends Component {
+    renderItemView = ({ item, index, }) => {
+      const onPress = () => {
+        this.props.onSelectMenu(this.props.selectedIndex, index, item.data);
+      };
+      return (
+        <TouchableOpacity style={styles.itemSelect} onPress={onPress}>
+          <Text style={{ color: '#2d2d2d', fontSize: 15, }}>
+            {item.option}
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+    render() {
+      const index = this.props.index;
+      const d = this.props.data;
+      // const subselected = this.state.subselected[index];
+      const enabled = this.props.selectedIndex == index; // || this.state.current == index;
+      return (
+        <Animated.View
+          key={index}
+          pointerEvents={enabled ? 'auto' : 'none'}
+          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.props.height[index], }, ]}
+        >
+          <View style={styles.scroll}>
+            <FlatList
+              data={d.data}
+              columnWrapperStyle={styles.rowZero}
+              numColumns={3}
+              subindex={1}
+              renderItem={this.renderItemView}
+              keyExtractor={(renderItem, index) => index.toString()}
+            />
+          </View>
+        </Animated.View>
+      );
+    }
+}
 export default class TopMenu extends Component {
   constructor(props) {
     super(props);
@@ -224,27 +263,11 @@ export default class TopMenu extends Component {
       );
     }
 
-    renderItemView = ({ item, index, seperators, }) => {
-      const onPress = () => {
-        this.onSelectMenu(seperators.subindex, index, item.data);
-        alert(`${index}`);
-      };
-      return (
-        <TouchableOpacity style={styles.itemSelect} onPress={onPress}>
-          <Text style={{ color: '#2d2d2d', fontSize: 15, }}>
-            {item.option}
-          </Text>
-        </TouchableOpacity>
-      );
-    }
+
     renderTestA = (d, index) => {
       const subselected = this.state.subselected[index];
-      let Comp = null;
-      if (d.type == 'title') {
-        Comp = Title;
-      } else {
-        Comp = Title;
-      }
+      const Comp = null;
+
 
       const enabled = this.state.selectedIndex == index || this.state.current == index;
       return (
@@ -255,51 +278,28 @@ export default class TopMenu extends Component {
         >
           <ScrollView style={styles.scrollA}>
             {d.data.map((data, optionIndex) => {
-              return (<Comp
+              return (<Title
                 onSelectMenu={this.onSelectMenu}
                 index={index}
                 optionIndex={optionIndex}
                 data={data}
                 selected={subselected == optionIndex}
-                key={optionIndex}
               />);
             })}
           </ScrollView>
         </Animated.View>
       );
     }
-    renderTestB = (d, index) => {
-      const subselected = this.state.subselected[index];
-
-      const enabled = this.state.selectedIndex == index || this.state.current == index;
-      return (
-        <Animated.View
-          key={index}
-          pointerEvents={enabled ? 'auto' : 'none'}
-          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
-        >
-          <View style={styles.scroll}>
-            <FlatList
-              data={d.data}
-              columnWrapperStyle={styles.rowZero}
-              numColumns={3}
-              subindex={1}
-              renderItem={this.renderItemView}
-              keyExtractor={(renderItem, index) => index.toString()}
-            />
-          </View>
-        </Animated.View>
-      );
-    }
 
     renderList = (d, index) => {
-      if (d.data.length > 4) {
-        return (
-          this.renderTestB(d, index)
-        );
-      }
       return (
-        this.renderTestA(d, index)
+        <List
+          data={d}
+          index={index}
+          height={this.state.height}
+          selectedIndex={this.state.selectedIndex}
+          onSelectMenu={this.onSelectMenu}
+        />
       );
     }
 
