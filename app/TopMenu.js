@@ -41,34 +41,34 @@ const TopMenuItem = (props) => {
   );
 };
 
-const Title = (props) => {
-  const textStyle = props.selected ?
-    [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
-    [ styles.tableItemText, styles.margin, ];
-
-  const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
-
-
-  const onPress = () => {
-    props.onSelectMenu(props.index, props.optionIndex, props.data);
-  };
-
-  return (
-    <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
-      <View style={styles.titleItem}>
-        {/* {props.selected && <Check />} */}
-
-        <Text style={textStyle}>{props.data.option}rr</Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
+// const Title = (props) => {
+//   const textStyle = props.selected ?
+//     [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
+//     [ styles.tableItemText, styles.margin, ];
+//
+//   const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
+//
+//
+//   const onPress = () => {
+//     props.onSelectMenu(props.index, props.optionIndex, props.data);
+//   };
+//
+//   return (
+//     <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
+//       <View style={styles.titleItem}>
+//         {/* {props.selected && <Check />} */}
+//
+//         <Text style={textStyle}>{props.data.option}rr</Text>
+//       </View>
+//     </TouchableHighlight>
+//   );
+// };
 
 
 class List extends Component {
     renderItemView = ({ item, index, }) => {
       const onPress = () => {
-        this.props.onSelectMenu(this.props.selectedIndex, index, item.data);
+        this.props.onSelectMenu(this.props.selectedIndex, index, this.props.data);
       };
       return (
         <TouchableOpacity style={styles.itemSelect} onPress={onPress}>
@@ -161,18 +161,9 @@ export default class TopMenu extends Component {
 
     onSelectMenu = (index, subindex, data) => {
       this.hide(index, subindex);
-      // this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+      this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
     }
     onHide = (index) => {
-      // 其他的设置为0
-      // for (let i = 0, c = this.state.height.length; i < c; ++i) {
-      //   if (index != i) {
-      //     this.state.height[i].setValue(0);
-      //   }
-      // }
-      if (index == 0) {
-
-      }
       Animated.parallel([ this.createAnimation(index, 0), this.createFade(0), ]).start();
     }
 
@@ -264,32 +255,32 @@ export default class TopMenu extends Component {
     }
 
 
-    renderTestA = (d, index) => {
-      const subselected = this.state.subselected[index];
-      const Comp = null;
-
-
-      const enabled = this.state.selectedIndex == index || this.state.current == index;
-      return (
-        <Animated.View
-          key={index}
-          // pointerEvents={enabled ? 'auto' : 'none'}
-          style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
-        >
-          <ScrollView style={styles.scrollA}>
-            {d.data.map((data, optionIndex) => {
-              return (<Title
-                onSelectMenu={this.onSelectMenu}
-                index={index}
-                optionIndex={optionIndex}
-                data={data}
-                selected={subselected == optionIndex}
-              />);
-            })}
-          </ScrollView>
-        </Animated.View>
-      );
-    }
+    // renderTestA = (d, index) => {
+    //   const subselected = this.state.subselected[index];
+    //   const Comp = null;
+    //
+    //
+    //   const enabled = this.state.selectedIndex == index || this.state.current == index;
+    //   return (
+    //     <Animated.View
+    //       key={index}
+    //       // pointerEvents={enabled ? 'auto' : 'none'}
+    //       style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
+    //     >
+    //       <ScrollView style={styles.scrollA}>
+    //         {d.data.map((data, optionIndex) => {
+    //           return (<Title
+    //             onSelectMenu={this.onSelectMenu}
+    //             index={index}
+    //             optionIndex={optionIndex}
+    //             data={data}
+    //             selected={subselected == optionIndex}
+    //           />);
+    //         })}
+    //       </ScrollView>
+    //     </Animated.View>
+    //   );
+    // }
 
     renderList = (d, index) => {
       return (
