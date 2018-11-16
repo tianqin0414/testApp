@@ -85,10 +85,12 @@ export default class FoodView extends Component {
     // };
 
     renderContent=() => {
+        let indexA = this.state.index;
       return (
         <View style={{ marginTop: 0, }}>
           <TouchableOpacity>
-            <Text style={styles.text}>index:{this.state.index} subindex:{this.state.subindex} title:{this.state.data.title}</Text>
+            <Text
+                style={styles.text}>index:{this.state.index} subindex:{this.state.subindex} title:{ this.state.data.option}</Text>
           </TouchableOpacity>
         </View>
       );

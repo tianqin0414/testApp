@@ -68,7 +68,7 @@ const TopMenuItem = (props) => {
 class List extends Component {
     renderItemView = ({ item, index, }) => {
       const onPress = () => {
-        this.props.onSelectMenu(this.props.selectedIndex, index, this.props.data);
+        this.props.onSelectMenu(this.props.selectedIndex, index, item);
       };
       return (
         <TouchableOpacity style={styles.itemSelect} onPress={onPress}>
