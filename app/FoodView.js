@@ -19,7 +19,7 @@ const CONFIG = [
   {
     type: 'title',
     category: '价格',
-    selectedIndex: 0,
+    // selectedIndex: 0,
     data: [ {
       option: '能收回',
     }, {

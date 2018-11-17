@@ -41,37 +41,20 @@ const TopMenuItem = (props) => {
   );
 };
 
-// const Title = (props) => {
-//   const textStyle = props.selected ?
-//     [ styles.tableItemText, styles.highlight, styles.marginHigh, ] :
-//     [ styles.tableItemText, styles.margin, ];
-//
-//   const rightTextStyle = props.selected ? [ styles.tableItemText, styles.highlight, ] : styles.tableItemText;
-//
-//
-//   const onPress = () => {
-//     props.onSelectMenu(props.index, props.optionIndex, props.data);
-//   };
-//
-//   return (
-//     <TouchableHighlight onPress={onPress} underlayColor="#f5f5f5">
-//       <View style={styles.titleItem}>
-//         {/* {props.selected && <Check />} */}
-//
-//         <Text style={textStyle}>{props.data.option}rr</Text>
-//       </View>
-//     </TouchableHighlight>
-//   );
-// };
-
 
 class List extends Component {
     renderItemView = ({ item, index, }) => {
+      const subindex = this.props.index; // index 为第几个菜单(subindex)
+        // alert(`${subindex}`);
+      const selected = this.props.subselected[subindex] === index;
+      const selectStyle = selected ?
+        [ styles.itemSelect, ] :
+        [ styles.itemSelectH, ];
       const onPress = () => {
         this.props.onSelectMenu(this.props.selectedIndex, index, item);
       };
       return (
-        <TouchableOpacity style={styles.itemSelect} onPress={onPress}>
+        <TouchableOpacity style={selectStyle} onPress={onPress}>
           <Text style={{ color: '#2d2d2d', fontSize: 15, }}>
             {item.option}
           </Text>
@@ -79,10 +62,9 @@ class List extends Component {
       );
     }
     render() {
-      const index = this.props.index;
       const d = this.props.data;
-      // const subselected = this.state.subselected[index];
-      const enabled = this.props.selectedIndex == index; // || this.state.current == index;
+      const index = this.props.index;
+      const enabled = this.props.selectedIndex == index; //|| this.state.current == index;
       return (
         <Animated.View
           key={index}
@@ -111,7 +93,7 @@ export default class TopMenu extends Component {
     const maxHeight = [];
     const subselected = [];
     const height = [];
-    const selectedList = [ 1, 2, 3, ];
+    // const selectedList = [ 1, 2, 3, ];
     // 最大高度
     const max = parseInt((height - 80) * 0.8 / 43);
     // const dic = new Array();
@@ -124,13 +106,10 @@ export default class TopMenu extends Component {
       } else {
         top[i] = item.data[item.selectedIndex].option;
       }
-      // maxHeight[i] = Math.min(item.data.length, max) * 43;
       const length = item.data.length;
-      if (length > 4) {
-        maxHeight[i] = Math.ceil(length / 3) * 60;
-      } else {
-        maxHeight[i] = length * 43;
-      }
+
+      maxHeight[i] = Math.ceil(length / 3) * 60;
+
       if (item.selectedIndex != null) {
         subselected[i] = item.selectedIndex;
       }
@@ -148,7 +127,7 @@ export default class TopMenu extends Component {
       subselected,
       height,
       fadeInOpacity: new Animated.Value(0),
-      selectedIndex: null,
+      selectedIndex: null, // 被选菜单
     };
   }
 
@@ -176,14 +155,14 @@ export default class TopMenu extends Component {
         // 消失
         this.hide(index);
       } else {
-        this.setState({ selectedIndex: index, });
+        this.setState({ selectedIndex: index, }); // selectedIndex 赋值
         this.onShow(index);
       }
     }
 
 
     createAnimation = (index, height) => {
-    // alert(`${height}`);
+      // alert(`${height}`);
       return Animated.timing(
         this.state.height[index],
         {
@@ -208,10 +187,10 @@ export default class TopMenu extends Component {
       let opts = { selectedIndex: null, current: index, };
       if (subselected !== undefined) {
         this.state.subselected[index] = subselected;
-        const item = this.state.array[index];
-        if (item.category == null) {
-          this.state.top[index] = this.props.config[index].data[subselected].option;
-        }
+        // const item = this.state.array[index];
+        // if (item.category == null) {
+        //   this.state.top[index] = this.props.config[index].data[subselected].option;
+        // }
         // 指定排序的比较函数
         if (this.state.array[index].category != null) {
           this.state.dic[index] = { name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
@@ -255,39 +234,15 @@ export default class TopMenu extends Component {
     }
 
 
-    // renderTestA = (d, index) => {
-    //   const subselected = this.state.subselected[index];
-    //   const Comp = null;
-    //
-    //
-    //   const enabled = this.state.selectedIndex == index || this.state.current == index;
-    //   return (
-    //     <Animated.View
-    //       key={index}
-    //       // pointerEvents={enabled ? 'auto' : 'none'}
-    //       style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.state.height[index], }, ]}
-    //     >
-    //       <ScrollView style={styles.scrollA}>
-    //         {d.data.map((data, optionIndex) => {
-    //           return (<Title
-    //             onSelectMenu={this.onSelectMenu}
-    //             index={index}
-    //             optionIndex={optionIndex}
-    //             data={data}
-    //             selected={subselected == optionIndex}
-    //           />);
-    //         })}
-    //       </ScrollView>
-    //     </Animated.View>
-    //   );
-    // }
-
-    renderList = (d, index) => {
+    renderList = (d, index) => { // index 为第几个菜单
+      // const subselected = this.state.subselected[index];
       return (
         <List
           data={d}
+          key={index}
           index={index}
           height={this.state.height}
+          subselected={this.state.subselected}
           selectedIndex={this.state.selectedIndex}
           onSelectMenu={this.onSelectMenu}
         />
@@ -332,6 +287,7 @@ export default class TopMenu extends Component {
 
 const styles = StyleSheet.create({
   itemSelect: { backgroundColor: '#f4f4f4', height: 40, width: 90, alignItems: 'center', marginTop: 10, marginLeft: 15, marginRight: 15, marginBottom: 10, justifyContent: 'center', },
+  itemSelectH: { backgroundColor: '#ff4012', height: 40, width: 90, alignItems: 'center', marginTop: 10, marginLeft: 15, marginRight: 15, marginBottom: 10, justifyContent: 'center', },
   rowZero: {
     flexDirection: 'row',
     justifyContent: 'space-between',
