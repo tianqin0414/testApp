@@ -48,8 +48,8 @@ class List extends Component {
         // alert(`${subindex}`);
       const selected = this.props.subselected[subindex] === index;
       const selectStyle = selected ?
-        [ styles.itemSelect, ] :
-        [ styles.itemSelectH, ];
+        [ styles.itemSelectH, ] :
+        [ styles.itemSelect, ];
       const onPress = () => {
         this.props.onSelectMenu(this.props.selectedIndex, index, item);
       };
@@ -65,9 +65,10 @@ class List extends Component {
       const d = this.props.data;
       const index = this.props.index;
       const enabled = this.props.selectedIndex == index; //|| this.state.current == index;
+        let key = enabled ? new Date().getTime() : index;
       return (
         <Animated.View
-          key={index}
+          key={key}
           pointerEvents={enabled ? 'auto' : 'none'}
           style={[ styles.content, { opacity: enabled ? 1 : 0, height: this.props.height[index], }, ]}
         >
