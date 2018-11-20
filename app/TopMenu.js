@@ -45,13 +45,13 @@ const TopMenuItem = (props) => {
 class List extends Component {
     renderItemView = ({ item, index, }) => {
       const subindex = this.props.index; // index 为第几个菜单(subindex)
-        // alert(`${subindex}`);
+      // alert(`${subindex}`);
       const selected = this.props.subselected[subindex] === index;
       const selectStyle = selected ?
         [ styles.itemSelectH, ] :
         [ styles.itemSelect, ];
       const onPress = () => {
-        this.props.onSelectMenu(this.props.selectedIndex, index, item);
+        this.props.onSelectMenu(this.props.menuIndex, index, item);
       };
       return (
         <TouchableOpacity style={selectStyle} onPress={onPress}>
@@ -64,8 +64,8 @@ class List extends Component {
     render() {
       const d = this.props.data;
       const index = this.props.index;
-      const enabled = this.props.selectedIndex == index; //|| this.state.current == index;
-        let key = enabled ? new Date().getTime() : index;
+      const enabled = this.props.menuIndex == index; // || this.state.current == index;
+      const key = enabled ? new Date().getTime() : index;
       return (
         <Animated.View
           key={key}
@@ -105,14 +105,14 @@ export default class TopMenu extends Component {
       if (item.category != null) {
         top[i] = item.category;
       } else {
-        top[i] = item.data[item.selectedIndex].option;
+        top[i] = item.data[item.menuIndex].option;
       }
       const length = item.data.length;
 
       maxHeight[i] = Math.ceil(length / 3) * 60;
 
-      if (item.selectedIndex != null) {
-        subselected[i] = item.selectedIndex;
+      if (item.menuIndex != null) {
+        subselected[i] = item.menuIndex;
       }
 
       height[i] = new Animated.Value(0);
@@ -128,7 +128,7 @@ export default class TopMenu extends Component {
       subselected,
       height,
       fadeInOpacity: new Animated.Value(0),
-      selectedIndex: null, // 被选菜单
+      menuIndex: null, // 被选菜单
     };
   }
 
@@ -139,25 +139,25 @@ export default class TopMenu extends Component {
   componentWillUnmount() {
   }
 
-    onSelectMenu = (index, subindex, data) => {
-      this.hide(index, subindex);
-      this.props.onSelectMenu && this.props.onSelectMenu(index, subindex, data);
+    onSelectMenu = (menuIndex, index, data) => {
+      this.hide(menuIndex, index);
+      this.props.onSelectMenu && this.props.onSelectMenu(menuIndex, index, data);
     }
-    onHide = (index) => {
-      Animated.parallel([ this.createAnimation(index, 0), this.createFade(0), ]).start();
-    }
-
-    onShow = (index) => {
-      Animated.parallel([ this.createAnimation(index, this.state.maxHeight[index]), this.createFade(1), ]).start();
+    onHide = (menuIndex) => {
+      Animated.parallel([ this.createAnimation(menuIndex, 0), this.createFade(0), ]).start();
     }
 
-    onSelect = (index) => {
-      if (index === this.state.selectedIndex) {
+    onShow = (menuIndex) => {
+      Animated.parallel([ this.createAnimation(menuIndex, this.state.maxHeight[menuIndex]), this.createFade(1), ]).start();
+    }
+
+    onSelect = (menuIndex) => {
+      if (menuIndex === this.state.menuIndex) {
         // 消失
-        this.hide(index);
+        this.hide(menuIndex);
       } else {
-        this.setState({ selectedIndex: index, }); // selectedIndex 赋值
-        this.onShow(index);
+        this.setState({ menuIndex, }); // menuIndex 赋值
+        this.onShow(menuIndex);
       }
     }
 
@@ -184,25 +184,31 @@ export default class TopMenu extends Component {
       );
     }
 
-    hide = (index, subselected) => {
-      let opts = { selectedIndex: null, current: index, };
-      if (subselected !== undefined) {
-        this.state.subselected[index] = subselected;
-        // const item = this.state.array[index];
-        // if (item.category == null) {
-        //   this.state.top[index] = this.props.config[index].data[subselected].option;
-        // }
-        // 指定排序的比较函数
-        if (this.state.array[index].category != null) {
-          this.state.dic[index] = { name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
-        }
+    hide = (menuIndex, subselected) => {
+      const opts = { menuIndex: null, current: menuIndex, };
+      const isRemove = this.state.subselected[menuIndex] == subselected;
+      if (subselected !== undefined && !isRemove) {
+        this.state.subselected[menuIndex] = subselected;
 
-        opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
+        this.state.dic[menuIndex] = { name: this.props.config[menuIndex].data[subselected].option, m: new Date().getTime(), };
+
+        // opts = { menuIndex: null, current: menuIndex, subselected: this.state.subselected.concat(), };
+      } else if (isRemove) {
+        this.state.subselected[menuIndex] = null;
+        // this.state.dic[menuIndex]=null;// arr.splice(1,2)
+        delete this.state.dic[menuIndex];
       }
 
 
       this.setState(opts);
-      this.onHide(index);
+      this.onHide(menuIndex);
+    }
+
+    hideA = (menuIndex,) => {
+      this.state.subselected[menuIndex] = null;
+      delete this.state.dic[menuIndex];
+        this.renderSeletedSecond();
+      alert('eee');
     }
 
     renderSelected() {
@@ -216,10 +222,13 @@ export default class TopMenu extends Component {
 
       const itemAry = [];
       const arr = Object.values(this.state.dic).sort(compare("m"));
+      const key = new Date().getTime();
       // const arr = this.state.dic.sort(compare("m"));
       arr.forEach((row, index) => {
         itemAry.push(
-          <Text key={index} style={{ fontSize: 24, }}>{row.name}</Text>
+          <TouchableOpacity onPress={() => this.hideA(0)} key={key}>
+            <Text style={{ fontSize: 24, }}>{row.name}1</Text>
+          </TouchableOpacity>
         );
       });
       return itemAry;
@@ -244,7 +253,7 @@ export default class TopMenu extends Component {
           index={index}
           height={this.state.height}
           subselected={this.state.subselected}
-          selectedIndex={this.state.selectedIndex}
+          menuIndex={this.state.menuIndex}
           onSelectMenu={this.onSelectMenu}
         />
       );
@@ -253,8 +262,8 @@ export default class TopMenu extends Component {
 
     render() {
       let list = null;
-      if (this.state.selectedIndex !== null) {
-        list = this.props.config[this.state.selectedIndex].data;
+      if (this.state.menuIndex !== null) {
+        list = this.props.config[this.state.menuIndex].data;
       }
       console.log(list);
       return (
@@ -266,14 +275,14 @@ export default class TopMenu extends Component {
                 index={index}
                 onSelect={this.onSelect}
                 label={t}
-                selected={this.state.selectedIndex === index}
+                selected={this.state.menuIndex === index}
               />);
             })}
           </View>
 
           {Object.values(this.state.dic).length == 0 ? null : this.renderSeletedSecond() }
           {this.props.renderContent()}
-          <View style={styles.bgContainer} pointerEvents={this.state.selectedIndex !== null ? "auto" : "none"}>
+          <View style={styles.bgContainer} pointerEvents={this.state.menuIndex !== null ? "auto" : "none"}>
             {/* <TouchableHighlight> */}
             <Animated.View style={[ styles.bg, { opacity: this.state.fadeInOpacity, }, ]} />
             {/* </TouchableHighlight> */}
