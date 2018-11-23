@@ -18,10 +18,10 @@ const { width, height, } = Dimensions.get('window');
 const CONFIG = [
   {
     type: 'title',
-    category: '价格',
+    category: '排序',
     // selectedIndex: 0,
     data: [ {
-      option: '能收回',
+      option: '综合',
     }, {
       option: '离我最近',
     }, {
@@ -34,14 +34,14 @@ const CONFIG = [
     type: 'Subtitle',
     category: '不能收回',
     data: [ {
-      option: '0-4k',
+      option: '不限',
     }, {
       option: '4-8k',
     }, {
       option: '8-12k',
     },
     {
-      option: '0-4k',
+      option: 'AAAAAAA',
     }, {
       option: '4-8k',
     }, {
@@ -55,7 +55,7 @@ const CONFIG = [
     type: 'title',
     category: '价格',
     data: [ {
-      option: '0-4k',
+      option: '不限',
     }, {
       option: '4-8k',
     }, {
