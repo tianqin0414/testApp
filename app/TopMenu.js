@@ -33,7 +33,7 @@ const TopMenuItem = (props) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.item}>
-        <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}22</Text>
+        <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}</Text>
         {/* <Triangle selected={props.selected} /> */}
         <Image style={{ height: 15, width: 15, }} source={!props.selected ? require('../images/ic_triangle_down.png') : require('../images/ic_triangle_up.png')} />
       </View>
