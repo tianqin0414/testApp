@@ -80,58 +80,62 @@ export default class FoodView extends Component {
     super(props);
     this.state = {
       data: {},
+      numTemp: null,
+      numSubmit: null,
     };
   }
 
-    // onSelectMenuTQ=(index, subindex, data) => {
-    //   this.setState({ index, subindex, data, });
-    // };
+  // onSelectMenuTQ=(index, subindex, data) => {
+  //   this.setState({ index, subindex, data, });
+  // };
 
-    renderContent=() => {
-      const indexA = this.state.index;
-      return (
-        <View style={{ marginTop: 0, }}>
-          <TouchableOpacity>
-            <Text
-              style={styles.text}
-            >index:{this.state.index} subindex:{this.state.subindex} title:{ this.state.data.option}</Text>
-          </TouchableOpacity>
-        </View>
-      );
-      // alert(this.state.data.title)
+  renderContent=() => {
+    const indexA = this.state.index;
+    return (
+      <View style={{ marginTop: 0, }}>
+        <TouchableOpacity onPress={() => alert(`${this.state.numSubmit}`)}>
+          <Text
+            style={styles.text}
+          >index:{this.state.index} subindex:{this.state.subindex} title:{ this.state.data.option}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+    // alert(this.state.data.title)
+  };
+
+  onSelectMenu=(index, subindex, data) => {
+    this.setState({ index, subindex, data, });
+  };
+
+  render() {
+    search = () => {
+      alert('111');
     };
-
-    onSelectMenu=(index, subindex, data) => {
-      this.setState({ index, subindex, data, });
-    };
-
-    render() {
-      return (
-        <View style={styles.container}>
-          <SearchInput
-            style={{ height: 40, backgroundColor: '#fcf8e3', borderColor: '#8a6d3b', marginTop: 50, }}
-            inputStyle={{ color: '#8a6d3b', fontSize: 18, }}
-            iconSize={15}
-            value={this.state.valueCustom}
-            placeholder="Custom"
-            placeholderTextColor="#aaa"
-            onChangeText={text => this.setState({ valueCustom: text, })}
-          />
-          <Search
-            ref="search_box"
-            /**
-            * There many props that can customizable
-            * Please scroll down to Props section
-            */
-          />
-          <SearchBar
-            lightTheme
-            placeholder="请输入您要搜索的号码"
-          />
-          <TopMenu style={styles.container} config={CONFIG} onSelectMenu={this.onSelectMenu} renderContent={this.renderContent} />
-        </View>
-      );
-    }
+    return (
+      <View style={styles.container}>
+        <SearchBar
+          lightTheme
+          // onChangenumTemp={}
+          // onClearnumTemp={}
+          placeholder="Type Here..."
+        />
+        <SearchBar
+          // containerStyle={{ backgroundColor: 'red',height:55, }}
+          // inputContainerStyle={{height:30,}}
+          onSubmitEditing={() => this.setState({ numSubmit: this.state.numTemp, })}
+          style={{ height: 10, }}
+          platform="ios"
+          cancelButtonTitle="取消"
+          cancelButtonProps={{ color: 'black', }}
+          placeholder="请输入您要搜索的号码"
+          onChangeText={(numTemp) => this.setState({ numTemp, })}
+          onCancel={() => this.setState({ numSubmit: null, })}
+          onClear={() => this.setState({ numSubmit: null, })}
+        />
+        <TopMenu style={styles.container} config={CONFIG} onSelectMenu={this.onSelectMenu} renderContent={this.renderContent} numSubmit={this.state.numSubmit} />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -148,5 +152,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
-
 });

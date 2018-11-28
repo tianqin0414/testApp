@@ -64,8 +64,8 @@ class List extends Component {
   render() {
     const d = this.props.data;
     const index = this.props.index;
-    const enabled = this.props.selectedIndex == index; //|| this.state.current == index;
-    let key = enabled ? new Date().getTime() : index;
+    const enabled = this.props.selectedIndex == index; // || this.state.current == index;
+    const key = enabled ? new Date().getTime() : index;
     return (
       <Animated.View
         key={key}
@@ -222,6 +222,11 @@ export default class TopMenu extends Component {
         <Text key={index} style={{ fontSize: 24, }}>{row.name}</Text>
       );
     });
+    let key =new Date().getTime();
+    itemAry.push(
+
+      this.props.numSubmit === null ? null : <Text key={key} style={{ fontSize: 24, }}>{this.props.numSubmit}</Text>
+    );
     return itemAry;
   }
 
@@ -271,7 +276,7 @@ export default class TopMenu extends Component {
           })}
         </View>
 
-        {Object.values(this.state.dic).length == 0 ? null : this.renderSeletedSecond() }
+        {Object.values(this.state.dic).length == 0 && this.props.numSubmit == null ? null : this.renderSeletedSecond() }
         {this.props.renderContent()}
         <View style={styles.bgContainer} pointerEvents={this.state.selectedIndex !== null ? "auto" : "none"}>
           {/* <TouchableHighlight> */}
