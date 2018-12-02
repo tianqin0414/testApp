@@ -33,7 +33,7 @@ const TopMenuItem = (props) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.item}>
-        <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}22</Text>
+        <Text style={props.selected ? styles.menuTextHigh : styles.menuText}>{props.label}</Text>
         {/* <Triangle selected={props.selected} /> */}
         <Image style={{ height: 15, width: 15, }} source={!props.selected ? require('../images/ic_triangle_down.png') : require('../images/ic_triangle_up.png')} />
       </View>
@@ -185,8 +185,9 @@ export default class TopMenu extends Component {
   }
 
   hide = (index, subselected) => {
-    let opts = { selectedIndex: null, current: index, };
-    if (subselected !== undefined) {
+    const opts = { selectedIndex: null, current: index, };
+    const isRemove = this.state.subselected[index] === subselected;
+    if (subselected !== undefined && !isRemove) {
       this.state.subselected[index] = subselected;
       // const item = this.state.array[index];
       // if (item.category == null) {
@@ -196,8 +197,10 @@ export default class TopMenu extends Component {
       if (this.state.array[index].category != null) {
         this.state.dic[index] = { name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
       }
-
-      opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
+      // opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
+    } else if (isRemove) {
+      this.state.subselected[index] = null;
+      delete this.state.dic[index];
     }
 
 
@@ -219,13 +222,15 @@ export default class TopMenu extends Component {
     // const arr = this.state.dic.sort(compare("m"));
     arr.forEach((row, index) => {
       itemAry.push(
-        <Text key={index} style={{ fontSize: 24, }}>{row.name}</Text>
+        <TouchableOpacity key={index} onPress={() => alert('11')} >
+          <Text style={{ fontSize: 24, }}>{row.name}</Text>
+        </TouchableOpacity>
       );
     });
-    let key =new Date().getTime();
+    const key = new Date().getTime();
     itemAry.push(
 
-      this.props.numSubmit === null ? null : <Text key={key} style={{ fontSize: 24, }}>{this.props.numSubmit}</Text>
+      this.props.numSubmit === null ? null : <Text key={99} style={{ fontSize: 24, }}>{this.props.numSubmit}</Text>
     );
     return itemAry;
   }
