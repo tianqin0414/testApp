@@ -185,7 +185,7 @@ export default class TopMenu extends Component {
   }
 
   hide = (index, subselected) => {
-    const opts = { selectedIndex: null, current: index, };
+    const opts = { selectedIndex: null, };
     const isRemove = this.state.subselected[index] === subselected;
     if (subselected !== undefined && !isRemove) {
       this.state.subselected[index] = subselected;
@@ -202,11 +202,15 @@ export default class TopMenu extends Component {
       this.state.subselected[index] = null;
       delete this.state.dic[index];
     }
-
-
     this.setState(opts);
     this.onHide(index);
   }
+
+  test = (index) => {
+    // this.state.subselected[index] = null;
+    delete this.state.dic[index];
+    this.setState({ renderAG: null, }); // 重新render
+  };
 
   renderSelected() {
     function compare(property) {
@@ -219,10 +223,9 @@ export default class TopMenu extends Component {
 
     const itemAry = [];
     const arr = Object.values(this.state.dic).sort(compare("m"));
-    // const arr = this.state.dic.sort(compare("m"));
     arr.forEach((row, index) => {
       itemAry.push(
-        <TouchableOpacity key={index} onPress={() => alert('11')} >
+        <TouchableOpacity key={index} onPress={() => this.test(row.index)} >
           <Text style={{ fontSize: 24, }}>{row.name}</Text>
         </TouchableOpacity>
       );
