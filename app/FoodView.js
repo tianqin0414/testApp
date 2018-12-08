@@ -9,9 +9,6 @@ import {
 } from 'react-native';
 import { SearchBar, } from 'react-native-elements';
 
-import { SearchInput, } from 'teaset';
-import Search from 'react-native-search-box';
-// import { SearchBar, } from 'react-native-elements';
 import TopMenu from "./TopMenu";
 
 
@@ -90,7 +87,6 @@ export default class FoodView extends Component {
   // };
 
   renderContent=() => {
-    const indexA = this.state.index;
     return (
       <View style={{ marginTop: 0, }}>
         <TouchableOpacity onPress={() => alert(`${this.state.numSubmit}`)}>
@@ -107,10 +103,11 @@ export default class FoodView extends Component {
     this.setState({ index, subindex, data, });
   };
 
+  cancelSeacrh = () => {
+    this.setState({ numSubmit: null, });
+  };
+
   render() {
-    search = () => {
-      alert('111');
-    };
     return (
       <View style={styles.container}>
         <SearchBar
@@ -132,7 +129,7 @@ export default class FoodView extends Component {
           onCancel={() => this.setState({ numSubmit: null, })}
           onClear={() => this.setState({ numSubmit: null, })}
         />
-        <TopMenu style={styles.container} config={CONFIG} onSelectMenu={this.onSelectMenu} renderContent={this.renderContent} numSubmit={this.state.numSubmit} />
+        <TopMenu style={styles.container} config={CONFIG} onSelectMenu={this.onSelectMenu} renderContent={this.renderContent} numSubmit={this.state.numSubmit} cancelSeacrh={this.cancelSeacrh} />
       </View>
     );
   }

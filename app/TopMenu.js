@@ -16,6 +16,8 @@ import {
   FlatList,
 } from 'react-native';
 
+import { Badge, } from 'react-native-elements';
+
 // const { Surface, Shape, Path, Group, } = ART;
 
 const { width, height, } = Dimensions.get('window');
@@ -189,13 +191,6 @@ export default class TopMenu extends Component {
   hide = (index, subselected) => {
     const opts = { selectedIndex: null, };
     const isRemove = this.state.subselected[index] === subselected;
-    function compare(property) {
-      return function (obj1, obj2) {
-        const value1 = obj1[property];
-        const value2 = obj2[property];
-        return value1 - value2; // 升序
-      };
-    }
     if (subselected !== undefined && !isRemove) {
       this.state.subselected[index] = subselected;
       // const item = this.state.array[index];
@@ -220,9 +215,8 @@ export default class TopMenu extends Component {
     this.setState({ renderAG: null, }); // 重新render
   };
 
-  test = () => {
-    this.props.numSubmit = null;
-    this.setState({ isSearch: false, });
+  cancelSeacrh = () => {
+    this.props.cancelSeacrh();
   };
 
   renderSelected() {
@@ -238,19 +232,18 @@ export default class TopMenu extends Component {
     const arr = Object.values(this.state.dic).sort(compare("m"));
     arr.forEach((row, index) => {
       itemAry.push(
-        <TouchableOpacity key={index} onPress={() => this.cancelSelected(row.index)} >
-          <Text style={{ fontSize: 24, }}>{row.name}</Text>
-        </TouchableOpacity>
+        <Badge key={index} containerStyle={{ backgroundColor: 'violet', borderRadius: 0, }} onPress={() => this.cancelSelected(row.index)} >
+          <Text>{row.name}</Text>
+        </Badge>
       );
     });
     const key = new Date().getTime();
     itemAry.push(
-
       this.props.numSubmit === null ?
         null :
-        <TouchableOpacity key={99} onPress={() => this.test()} >
-          <Text style={{ fontSize: 24, }}>{this.props.numSubmit}</Text>
-        </TouchableOpacity>
+        <Badge key={99} containerStyle={{ flex: 0, backgroundColor: 'violet', borderRadius: 0, }} onPress={() => this.cancelSeacrh()} wrapperStyle={{ flex: 0, padding: 20, justifyContent: 'flex-start', alignItems: 'flex-start', }} >
+          <Text>{this.props.numSubmit}</Text>
+        </Badge>
     );
     return itemAry;
   }
