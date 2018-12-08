@@ -123,12 +123,14 @@ export default class TopMenu extends Component {
     this.state = {
       array,
       dic,
+      dicArr: [],
       top,
       maxHeight,
       subselected,
       height,
       fadeInOpacity: new Animated.Value(0),
       selectedIndex: null, // 被选菜单
+      isSearch: true,
     };
   }
 
@@ -187,6 +189,13 @@ export default class TopMenu extends Component {
   hide = (index, subselected) => {
     const opts = { selectedIndex: null, };
     const isRemove = this.state.subselected[index] === subselected;
+    function compare(property) {
+      return function (obj1, obj2) {
+        const value1 = obj1[property];
+        const value2 = obj2[property];
+        return value1 - value2; // 升序
+      };
+    }
     if (subselected !== undefined && !isRemove) {
       this.state.subselected[index] = subselected;
       // const item = this.state.array[index];
@@ -195,21 +204,25 @@ export default class TopMenu extends Component {
       // }
       // 指定排序的比较函数
       if (this.state.array[index].category != null) {
-        this.state.dic[index] = { name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
+        this.state.dic[index] = { index, name: this.props.config[index].data[subselected].option, value: 5, m: new Date().getTime(), };
       }
       // opts = { selectedIndex: null, current: index, subselected: this.state.subselected.concat(), };
     } else if (isRemove) {
-      this.state.subselected[index] = null;
-      delete this.state.dic[index];
+      this.cancelSelected(index);
     }
     this.setState(opts);
     this.onHide(index);
   }
 
-  test = (index) => {
-    // this.state.subselected[index] = null;
-    delete this.state.dic[index];
+  cancelSelected = (rowIndex) => {
+    this.state.subselected[rowIndex] = null;
+    delete this.state.dic[rowIndex];
     this.setState({ renderAG: null, }); // 重新render
+  };
+
+  test = () => {
+    this.props.numSubmit = null;
+    this.setState({ isSearch: false, });
   };
 
   renderSelected() {
@@ -225,7 +238,7 @@ export default class TopMenu extends Component {
     const arr = Object.values(this.state.dic).sort(compare("m"));
     arr.forEach((row, index) => {
       itemAry.push(
-        <TouchableOpacity key={index} onPress={() => this.test(row.index)} >
+        <TouchableOpacity key={index} onPress={() => this.cancelSelected(row.index)} >
           <Text style={{ fontSize: 24, }}>{row.name}</Text>
         </TouchableOpacity>
       );
@@ -233,7 +246,11 @@ export default class TopMenu extends Component {
     const key = new Date().getTime();
     itemAry.push(
 
-      this.props.numSubmit === null ? null : <Text key={99} style={{ fontSize: 24, }}>{this.props.numSubmit}</Text>
+      this.props.numSubmit === null ?
+        null :
+        <TouchableOpacity key={99} onPress={() => this.test()} >
+          <Text style={{ fontSize: 24, }}>{this.props.numSubmit}</Text>
+        </TouchableOpacity>
     );
     return itemAry;
   }
@@ -284,7 +301,7 @@ export default class TopMenu extends Component {
           })}
         </View>
 
-        {Object.values(this.state.dic).length == 0 && this.props.numSubmit == null ? null : this.renderSeletedSecond() }
+        {Object.values(this.state.dic) == 0 && this.props.numSubmit == null ? null : this.renderSeletedSecond() }
         {this.props.renderContent()}
         <View style={styles.bgContainer} pointerEvents={this.state.selectedIndex !== null ? "auto" : "none"}>
           {/* <TouchableHighlight> */}
