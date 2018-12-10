@@ -21,7 +21,7 @@ const CONFIG = [
     category: '排序',
     // selectedIndex: 0,
     data: [ {
-      option: '综合',
+      option: '综合K',
     }, {
       option: '离我最近',
     }, {
@@ -111,12 +111,6 @@ export default class FoodView extends Component {
     return (
       <View style={styles.container}>
         <SearchBar
-          lightTheme
-          // onChangenumTemp={}
-          // onClearnumTemp={}
-          placeholder="Type Here..."
-        />
-        <SearchBar
           // containerStyle={{ backgroundColor: 'red',height:55, }}
           // inputContainerStyle={{height:30,}}
           onSubmitEditing={() => this.setState({ numSubmit: this.state.numTemp, })}
@@ -128,6 +122,7 @@ export default class FoodView extends Component {
           onChangeText={(numTemp) => this.setState({ numTemp, })}
           onCancel={() => this.setState({ numSubmit: null, })}
           onClear={() => this.setState({ numSubmit: null, })}
+          inputContainerStyle={{ borderRadius: 0,}}
         />
         <TopMenu style={styles.container} config={CONFIG} onSelectMenu={this.onSelectMenu} renderContent={this.renderContent} numSubmit={this.state.numSubmit} cancelSeacrh={this.cancelSeacrh} />
       </View>

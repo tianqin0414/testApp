@@ -227,32 +227,39 @@ export default class TopMenu extends Component {
         return value1 - value2; // 升序
       };
     }
-
+    const textStyle = this.props.numSubmit === null ? badgeStyles.textStyle : badgeStyles.textGreyStyle;
     const itemAry = [];
     const arr = Object.values(this.state.dic).sort(compare("m"));
     arr.forEach((row, index) => {
       itemAry.push(
-        <Badge key={index} containerStyle={{ backgroundColor: 'violet', borderRadius: 0, }} onPress={() => this.cancelSelected(row.index)} >
-          <Text>{row.name}</Text>
+        <Badge key={index} wrapperStyle={badgeStyles.wrapperStyle} containerStyle={badgeStyles.containerStyle} onPress={() => this.cancelSelected(row.index)} >
+          <Text style={textStyle}>{row.name}   </Text>
+          <Text style={textStyle}>×</Text>
         </Badge>
       );
     });
-    const key = new Date().getTime();
-    itemAry.push(
-      this.props.numSubmit === null ?
-        null :
-        <Badge key={99} containerStyle={{ flex: 0, backgroundColor: 'violet', borderRadius: 0, }} onPress={() => this.cancelSeacrh()} wrapperStyle={{ flex: 0, padding: 20, justifyContent: 'flex-start', alignItems: 'flex-start', }} >
-          <Text>{this.props.numSubmit}</Text>
-        </Badge>
-    );
     return itemAry;
   }
 
   renderSeletedSecond() {
     return (
-      <View style={{ backgroundColor: 'red', height: 100, }}>
-        {this.renderSelected()}
-
+      <View>
+        <View style={{ flexDirection: 'row', }}>
+          {this.renderSelected()}
+        </View>
+        {this.props.numSubmit === null ? null :
+        <View style={{ flexDirection: 'row', }}>
+            <Badge
+            key={99}
+            wrapperStyle={badgeStyles.wrapperStyle}
+            containerStyle={badgeStyles.containerStyle}
+            onPress={() => this.cancelSeacrh()}
+          >
+            <Text style={badgeStyles.textStyle}>搜索:{this.props.numSubmit}   </Text>
+            <Text style={badgeStyles.textStyle}>×</Text>
+          </Badge>
+          </View>
+        }
       </View>
     );
   }
@@ -308,6 +315,13 @@ export default class TopMenu extends Component {
     );
   }
 }
+
+const badgeStyles = StyleSheet.create({
+  wrapperStyle: { marginLeft: 15, marginTop: 5, },
+  containerStyle: { flexDirection: 'row', backgroundColor: 'violet', borderRadius: 0, justifyContent: 'space-between', },
+  textStyle: { flex: 0, marginLeft: -5, },
+  textGreyStyle: { flex: 0, marginLeft: -5, color: 'grey', },
+});
 
 const styles = StyleSheet.create({
   itemSelect: { backgroundColor: '#f4f4f4', height: 40, width: 90, alignItems: 'center', marginTop: 10, marginLeft: 15, marginRight: 15, marginBottom: 10, justifyContent: 'center', },
