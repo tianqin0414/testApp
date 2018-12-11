@@ -104,6 +104,7 @@ export default class FoodView extends Component {
   };
 
   cancelSeacrh = () => {
+    alert('111');
     this.setState({ numSubmit: null, });
   };
 
@@ -120,7 +121,7 @@ export default class FoodView extends Component {
           cancelButtonProps={{ color: 'black', }}
           placeholder="请输入您要搜索的号码"
           onChangeText={(numTemp) => this.setState({ numTemp, })}
-          onCancel={() => this.setState({ numSubmit: null, })}
+          onCancel={() => this.cancelSeacrh()}
           onClear={() => this.setState({ numSubmit: null, })}
           inputContainerStyle={{ borderRadius: 0,}}
         />
